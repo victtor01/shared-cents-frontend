@@ -1,1 +1,43 @@
-/* You can add global styles to this file, and also import other style files */
+@use "tailwindcss";
+
+.saira-font {
+  font-family: "Saira", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.icon-md {
+  font-size: 30px !important;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+.icon-lg {
+  font-size: 40px !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.icon-xl {
+  font-size: 50px !important;
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.icon-2xl {
+  font-size: 70px !important;
+  width: 70px !important;
+  height: 70px !important;
+}

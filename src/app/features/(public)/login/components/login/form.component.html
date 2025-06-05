@@ -1,0 +1,63 @@
+<form
+  [formGroup]="loginForm"
+  (ngSubmit)="onSubmit()"
+  class="flex flex-col p-10 relative pb-[5rem] border shadow-md shadow-gray-900/10 rounded-3xl border-gray-200 bg-gradient-to-b from-sky-100/50 to-35% to-white backdrop-blur-sm"
+>
+  <header class="flex items-center justify-center gap-2 flex-col mb-[5rem]">
+    <div class="w-16 h-16 grid bg-gray-50 place-items-center rounded-2xl text-gray-600 shadow-xl shadow-sky-300/20">
+      <mat-icon class="icon-lg">login</mat-icon>
+    </div>
+
+    <h2 class="saira-font text-2xl text-center font-semibold">
+      Entre com seu email.
+    </h2>
+  </header>
+
+  <div class="flex flex-1 flex-col gap-4">
+    <label for="email" class="flex flex-col gap-2">
+      <input
+        type="text"
+        formControlName="email"
+        class="rounded-xl border-gray-200 placeholder:text-gray-400  bg-slate-100 p-3 outline-none focus:ring-2 ring-gray-700 transition-shadow"
+        placeholder="your_email@example.com"
+      />
+    </label>
+
+    @if (isSubmited && (email?.hasError("required") ||
+    email?.hasError("email"))) {
+    <span class="font-semibold text-rose-600">
+      Preencha o email corretamente!
+    </span>
+    }
+
+    <label for="password" class="flex flex-col gap-2">
+      <input
+        type="password"
+        formControlName="password"
+        class="rounded-xl border-gray-200 placeholder:text-gray-400 bg-slate-100 p-3 outline-none focus:ring-2 ring-gray-700 transition-shadow"
+        placeholder="123456"
+      />
+    </label>
+
+    <a href="#" class="font-semibold saira-font text-gray-500">
+      FORGOT PASSWORD?
+    </a>
+  </div>
+
+  <footer class="flex items-center justify-center w-full left-0 mt-10">
+    <button
+      type="submit"
+      class="bg-gray-800 w-full shadow-inner shadow-gray-400 cursor-pointer px-10 rounded-xl p-2"
+    >
+      <span class="text-lg text-white saira-font"> Entrar </span>
+    </button>
+  </footer>
+</form>
+
+<div class="flex w-full">
+  <button
+    class="mt-10 mx-auto border-gray-600 text-gray-700 border border-dashed p-2 px-10 rounded-full"
+  >
+    Ainda não tenho uma conta!
+  </button>
+</div>
