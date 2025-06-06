@@ -18,6 +18,22 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.icon-contour {
+  font-variation-settings: "FILL" 0 !important;
+}
+
+.icon-xs {
+  font-size: 15px !important;
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.icon-sm {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
 .icon-md {
   font-size: 30px !important;
   width: 30px !important;
@@ -40,4 +56,25 @@ body {
   font-size: 70px !important;
   width: 70px !important;
   height: 70px !important;
+}
+
+.loader {
+  --bgColor: var(--color-green-500);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-block;
+  border-top: 3px solid var(--bgColor);
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

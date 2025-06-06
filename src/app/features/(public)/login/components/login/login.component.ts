@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     const res = this.authService.login(email, password).subscribe({
       next: (response) => {
         console.log(response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/workspaces']);
       },
       error: (err) => {
         console.log('Houve um erro');

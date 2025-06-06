@@ -8,9 +8,7 @@ interface AuthResponse {
   refreshToken: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private isAuthenticated: boolean = false;
   private currentUserSubject = new BehaviorSubject<User | null>(null);

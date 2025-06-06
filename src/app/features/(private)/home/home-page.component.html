@@ -1,0 +1,80 @@
+<div class="flex gap-4 p-4 flex-col">
+  <header class="bg-white flex items-center gap-4">
+    <div
+      class="w-10 h-10 bg-blue-500 rounded-full grid place-items-center saira-font font-semibold text-white"
+    >
+      {{ user?.firstName?.[0] }}
+    </div>
+    <div
+      class="border rounded-full focus-within:ring-2 focus-within:border-sky-500 ring-sky-400 border-zinc-200 flex-1 overflow-hidden items-center flex"
+    >
+      <span class="px-2 items-center flex">
+        <mat-icon style="color: var(--color-gray-300)">search</mat-icon>
+      </span>
+      <input
+        type="text"
+        placeholder="search here..."
+        class="placeholder:text-gray-400 py-2 flex-1 saira-font outline-none"
+      />
+    </div>
+
+    <button
+      class="bg-sky-400 shadow-xl shadow-sky-500/30 hover:bg-sky-500 transition-all cursor-pointer text-gray-800 p-2 px-4 rounded-full"
+    >
+      <span class="px-2 saira-font font-semibold"> Novo espaço </span>
+    </button>
+  </header>
+
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 w-full gap-5"
+  >
+    @for (item of workspaces; track $index) {
+    <div
+      class="flex flex-1 flex-col pb-4 bg-gray-50 overflow-hidden rounded-lg border-zinc-200"
+    >
+      <div
+        class="w-full h-[4px] bg-sky-500/40 shadow-[inset_0px_-10px_20px_-10px_var(--color-gray-600)]"
+      ></div>
+
+      <header class="flex items-center justify-between mt-4 px-4">
+        <div class="flex items-center gap-2">
+          <div
+            class="w-10 h-10 rounded-full bg-gray-100 grid place-items-center"
+          >
+            <mat-icon
+              style="color: var(--color-gray-400)"
+              fontSet="material-symbols-outlined"
+            >
+              {{ handleIcon(item?.icon) }}
+            </mat-icon>
+          </div>
+          <h2 class="saira-font font-semibold text-gray-700">
+            {{ item?.name }}
+          </h2>
+        </div>
+
+        <div class="flex items-center gap-1 text-gray-400">
+          <mat-icon class="icon-xs">account_circle</mat-icon>
+          <span class="text-sm">
+            {{ item?.members?.length }}
+          </span>
+        </div>
+      </header>
+
+      <section class="flex gap-2 items-center">
+        <div class=""></div>
+      </section>
+
+      <footer class="px-4 mt-2">
+        <button
+          type="button"
+          (click)="selectWorkspace(item.id)"
+          class="bg-sky-500 cursor-pointer hover:shadow-lg shadow-blue-600/40 rounded-full px-3 p-1 text-white"
+        >
+          <span class="saira-font"> Entrar </span>
+        </button>
+      </footer>
+    </div>
+    }
+  </div>
+</div>
