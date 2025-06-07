@@ -10,6 +10,8 @@ export interface FinanceTransaction {
   updatedAt?: string;
   user?: User | null;
   amount: number;
+
+  status?: ExpenseStatus | null;
 }
 
 type PaymentMethod =
@@ -18,3 +20,5 @@ type PaymentMethod =
   | 'DEBIT_CARD'
   | 'BANK_TRANSFER'
   | 'CASH';
+
+type ExpenseStatus = 'PAID' | 'PENDING';

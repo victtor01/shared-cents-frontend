@@ -1,5 +1,5 @@
 <header
-  class="flex w-full border-b border-zinc-200 p-3 items-center justify-between"
+  class="flex w-full border-b border-zinc-200 sticky top-0 z-20 backdrop-blur-xl p-3 items-center justify-between"
 >
   <div class="flex items-center gap-2">
     <button
@@ -10,7 +10,12 @@
       </mat-icon>
     </button>
     <h2 class="saira-font text-xl font-semibold text-gray-500">
-      {{ name }}
+      {{ workspace?.name }}
     </h2>
+  </div>
+  <div class="bg-emerald-50 p-1 px-2 rounded-lg text-emerald-700">
+    <span class="saira-font">
+      {{ formatBRL(workspace?.amount) }}
+    </span>
   </div>
 </header>

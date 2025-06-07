@@ -11,4 +11,12 @@ export class TransactionsService {
       `/transactions/${workspaceId}`
     );
   }
+
+  public createIncome() {
+
+  }
+
+  public createExpense() {
+
+  }
 }

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { Workspace } from '@app/core/models/Workspace';
+import { formatToBRL } from '@app/shared/utils/format-to-brl';
 
 @Component({
   selector: 'header-workspace',
@@ -8,5 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class HeaderWorkspaceComponent {
   @Input()
-  public name?: string = '';
+  public workspace?: Workspace;
+
+  public formatBRL (v?: string | number | null) {
+    return formatToBRL(v ?? 0);
+  }
 }
