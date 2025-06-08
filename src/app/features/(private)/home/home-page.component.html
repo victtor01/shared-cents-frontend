@@ -1,10 +1,6 @@
 <div class="flex gap-4 p-4 flex-col">
-  <header class="bg-white flex items-center gap-4">
-    <div
-      class="w-10 h-10 bg-blue-500 rounded-full grid place-items-center saira-font font-semibold text-white"
-    >
-      {{ user?.firstName?.[0] }}
-    </div>
+  <header class="bg-white relative flex items-center gap-4">
+    <user-options [user]="user || undefined"></user-options>
     <div
       class="border rounded-full focus-within:ring-2 focus-within:border-sky-500 ring-sky-400 border-zinc-200 flex-1 overflow-hidden items-center flex"
     >

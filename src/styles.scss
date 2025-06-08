@@ -18,6 +18,11 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-icon {
+  /* ... outras propriedades ... */
+  font-variation-settings: 'FILL' 0 !important; /* <-- CULPADO! */
+}
+
 .icon-contour {
   font-variation-settings: "FILL" 0 !important;
 }

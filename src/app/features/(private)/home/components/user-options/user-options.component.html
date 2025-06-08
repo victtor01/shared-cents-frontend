@@ -1,0 +1,26 @@
+<button
+  (click)="handleIsOpen()"
+  class="w-10 h-10 cursor-pointer bg-blue-500 rounded-full grid place-items-center saira-font font-semibold text-white"
+>
+  {{ user?.firstName?.[0] }}
+</button>
+
+@if (isOpen()) {
+<div
+  class="flex flex-col overflow-hidden mt-2 divide-y bg-white max-w-[20rem] rounded-lg shadow-xl absolute top-[100%] w-full divide-gray-200 left-0"
+>
+  <button
+    class="p-2 hover:bg-gray-100 transition-all text-gray-500 flex items-center gap-2"
+  >
+    <mat-icon fontSet="material-symbols-outlined">notifications</mat-icon>
+    <span> Notificações </span>
+  </button>
+  <button
+    (click)="openInvites()"
+    class="p-2 hover:bg-gray-100 transition-all text-gray-500 flex items-center gap-2"
+  >
+    <mat-icon fontSet="material-symbols-outlined">mark_email_unread</mat-icon>
+    <span> Convites </span>
+  </button>
+</div>
+}

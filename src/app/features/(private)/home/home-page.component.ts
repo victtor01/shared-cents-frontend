@@ -7,12 +7,14 @@ import { Workspace } from '@app/core/models/Workspace';
 import { AuthService } from '@app/core/services/auth-service';
 import { WorkspaceService } from '@app/core/services/workspace-service';
 import { getIcon, ICONS } from '@app/shared/utils/icons';
+import { InvitesComponent } from './components/invites/invites.component';
 import { SelectingDialogComponent } from './components/selecting-dialog/selecting-dialog.component';
+import { UserOptionsComponent } from './components/user-options/user-options.component';
 
 @Component({
   templateUrl: './home-page.component.html',
   selector: 'home-page',
-  imports: [MatIconModule],
+  imports: [MatIconModule, UserOptionsComponent],
 })
 export class HomePageComponent implements OnInit {
   public workspaces?: Workspace[];
@@ -36,6 +38,10 @@ export class HomePageComponent implements OnInit {
       dialogRef.close(); // Fecha o modal
       this.router.navigate(['/workspaces', workspaceId]); // Navega para a nova rota
     }, 1500); // 1.5 segundos de delay
+  }
+
+  public openInvites() {
+    this.dialog.open(InvitesComponent);
   }
 
   public ngOnInit(): void {
