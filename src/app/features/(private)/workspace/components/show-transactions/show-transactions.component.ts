@@ -15,7 +15,6 @@ type TransactionType = 'INCOME' | 'EXPENSE';
 export class ShowTransactionsComponent implements OnInit {
   @Input()
   public transactions?: FinanceTransaction[];
-
   public isOpenInput = signal<boolean>(false);
   public type = signal<TransactionType>('INCOME');
   public form: FormGroup;

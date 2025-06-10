@@ -1,11 +1,12 @@
-<section class="flex relative flex-col gap-2 p-2 bg-gray-50">
+<section class="flex relative flex-col gap-2 p-6 bg-gray-50">
   <button
-    class="absolute top-5 left-5 rounded-full w-10 h-10 shadow cursor-pointer bg-white grid place-items-center"
+    class="rounded-full w-10 h-10 shadow cursor-pointer bg-white grid place-items-center"
     (click)="closeModal()"
   >
     <mat-icon> close </mat-icon>
   </button>
 
+  @if (!invites.length) {
   <section class="flex flex-col items-center justify-center h-[20rem]">
     <span class="text-gray-500">
       <mat-icon class="icon-2xl"> drafts </mat-icon>
@@ -15,4 +16,47 @@
       Não há convites
     </h2>
   </section>
+  } @if(invites.length) {
+  <section class="flex mt-2 flex-col min-h-[20rem] max-h-[30rem] overflow-auto">
+    @for (invite of invites; track $index) {
+    <div class="flex flex-col bg-white rounded-md shadow p-3">
+      <div class="flex">
+        <span class="text-lg flex-1 font-semibold saira-font text-gray-500">
+          {{ invite?.workspace?.name }}
+        </span>
+        <div class="flex gap-2 items-center">
+          <button
+            class="bg-indigo-50 shadow-indigo-500/30 hover:shadow transition-all cursor-pointer p-1 px-2 rounded text-gray-600 font-0semibold shadow-inner"
+          >
+            Aceitar
+          </button>
+
+          <button
+            class="bg-gray-50 p-1 px-2 rounded text-gray-600 font-0semibold"
+          >
+            <span class="saira-font font-semibold"> Recusar </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-between gap-2">
+        <div class="flex gap-2 items-center justify-between">
+          <div class="flex relative">
+            @for (user of invite?.workspace?.members?.slice(0, 5); track
+            user.id; let i = $index) {
+            <div
+              class="w-10 h-10 bg-indigo-500 rounded-full border-2 border-white flex items-center justify-center text-white font-bold"
+              [style.margin-left]="i === 0 ? '0' : '-16px'"
+              [style.z-index]="i"
+            >
+              {{ user?.firstName?.charAt(0)?.toUpperCase() }}
+            </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </section>
+  }
 </section>

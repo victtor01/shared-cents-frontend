@@ -1,37 +1,31 @@
 <section class="flex flex-col p-5 mx-auto w-full max-w-[100rem]">
+  <div
+    class="absolute inset-0 z-[-1] h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"
+  ></div>
+
   @for (item of transactions; track $index) {
   <div
-    class="flex flex-1 gap-2 p-1 hover:data-[income=true]:bg-sky-50/40 hover:bg-gray-50/40 data-[i]:justify-end"
+    class="flex flex-1 gap-2 p-1 hover:data-[income=true]:bg-sky-50/40 hover:bg-gray-50/40 data-[i=true]:justify-end"
     [attr.data-income]="(item?.amount ?? 0) > 0"
     [attr.data-i]="item?.user?.id === user?.id"
   >
     <div
-      [attr.data-paid]="item?.status === 'PAID'"
-      class="flex items-center data-[paid=true]:bg-blue-400/5 w-full max-w-[30rem] p-1 rounded-xl"
+      [attr.data-i]="item?.user?.id === user?.id"
+      class="flex items-center data-[i=false]:flex-row-reverse w-full max-w-[30rem] p-1 rounded-xl"
     >
-      <div class="flex px-4 min-w-20">
-        @if (item?.status === "PAID") {
-        <div
-          class="min-w-10 h-10 grid place-items-center text-indigo-100 bg-gradient-to-bl from-indigo-500 to-indigo-500 rounded-full opacity-70 shadow-xl"
-        >
-          <mat-icon> check </mat-icon>
-        </div>
-        }
-      </div>
-
       <div
         [attr.data-income]="(item?.amount ?? 0) > 0"
         [attr.data-paid]="item?.status === 'PAID'"
-        class="flex flex-col w-full flex-1 data-[paid=true]:opacity-50 bg-white data-[income=true]:shadow-xl data-[income=false]:shadow-inner data-[income=false]:shadow-zinc-200 data-[income=true]:shadow-indigo-500/20 p-3 opacity-80 hover:opacity-100 border data-[income=true]:border-indigo-200 border-gray-300 rounded-xl data-[income=true]:bg-indigo-50/50"
+        class="flex flex-col w-full flex-1 data-[paid=true]:opacity-70 bg-white data-[income=false]:shadow-zinc-200 p-3 opacity-80 hover:opacity-100 border data-[income=true]:border-indigo-200 border-gray-300 rounded-xl data-[income=true]:bg-indigo-50/50"
       >
-        <header class="flex justify-between items-center gap-2">
+        <div class="flex justify-between items-center gap-2">
           @if ((item?.amount ?? 0) > 0) {
           <div
             class="grid place-items-center text-indigo-600 w-10 h-10 rounded-full bg-indigo-100"
           >
             <mat-icon> trending_up </mat-icon>
           </div>
-          } @else {
+          }@else {
           <div
             class="grid place-items-center text-gray-500 w-10 h-10 rounded-full bg-gray-100"
           >
@@ -41,48 +35,59 @@
 
           <div
             [attr.data-income]="(item?.amount ?? 0) > 0"
-            class="font-semibold flex-1 saira-font data-[income=true]:text-indigo-600 text-gray-700"
+            class="font-semibold overflow-hidden w-20 flex-1 text-ellipsis saira-font data-[income=true]:text-indigo-600 text-gray-700"
           >
             {{ item.name }}
           </div>
 
+          @if (item?.status === "PAID") {
+          <div
+            class="bg-gray-100 rounded-full text-gray-900 font-semibold text-sm p-1 px-2"
+          >
+            PAGO
+          </div>
+          }
+
           <div
             [attr.data-income]="(item?.amount ?? 0) > 0"
-            class="data-[income=true]:text-indigo-500 text-gray-500"
+            class="data-[income=true]:text-indigo-500 text-nowrap text-gray-500"
           >
             <span class="text-lg font-semibold saira-font">
               {{ formatBRL(item?.amount || 0) }}
             </span>
           </div>
-        </header>
+        </div>
       </div>
-    </div>
 
-    @if ($index === 0 || transactions?.[$index - 1]?.user?.id !==
-    item?.user?.id) {
-    <div
-      class="w-10 h-10 bg-blue-500 text-white shadow rounded-full grid place-items-center"
-    >
-      {{ item?.user?.firstName?.[0] }}
+      @if ($index === 0 || transactions?.[$index - 1]?.user?.id !==
+      item?.user?.id) {
+      <div
+        class="min-w-10 h-10 bg-blue-500 mx-2 text-white shadow rounded-full grid place-items-center"
+      >
+        {{ item?.user?.firstName?.[0] }}
+      </div>
+      }@else {
+      <div class="min-w-10 h-10 mx-2 rounded-full"></div>
+      }
     </div>
-    }@else {
-    <div class="w-10 h-10 rounded-full"></div>
-    }
   </div>
   }
 
-  <div class="flex flex-1 gap-2 items-center p-2 justify-end">
+  <div
+    class="flex flex-1 gap-2 justify-center items-center w-full fixed bottom-0 left-0 p-2"
+  >
     @if (isOpenInput()) {
-    <button
-      (click)="handleOpenInput()"
-      class="p-2 cursor-pointer opacity-80 hover:opacity-100 px-4 rounded-lg text-gray-500 flex bg-gray-50 border border-dashed"
-    >
-      Novo registro
-    </button>
-    <div class="w-10 h-10 rounded-full"></div>
+      <div class="justify-end w-full max-w-[90rem] flex">
+        <button
+        (click)="handleOpenInput()"
+        class="cursor-pointer h-16 text-gray-300 bg-gradient-to-r from-indigo-500 to-violet-500 px-4 rounded-full flex border items-center justify-center border-dashed"
+        >
+        <mat-icon class="icon-md"> add </mat-icon>
+      </button>
+    </div>
     } @else {
     <div
-      class="flex flex-col p-2 w-full max-w-[20rem] rounded-xl border gap-2 border-gray-200"
+      class="flex flex-col p-2 w-full bg-white mb-5 mx-5 max-w-[30rem] rounded-xl border gap-2 border-gray-200"
     >
       <header class="flex justify-between items-center">
         <h1 class="saira-font font-semibold text-gray-500">Criar</h1>
@@ -144,7 +149,7 @@
 
       <footer class="flex flex-col mt-2">
         <button
-          class="flex p-2 bg-sky-400 text-blue-900 opacity-90 hover:opacity-100 hover:shadow-lg shadow shadow-sky-200 transition-all rounded-full cursor-pointer items-center justify-center"
+          class="flex p-2 bg-indigo-500 text-blue-100 opacity-90 hover:opacity-100 hover:shadow-lg shadow shadow-sky-200 transition-all rounded-full cursor-pointer items-center justify-center"
         >
           <span class="saira-font font-semibold"> Criar </span>
         </button>
