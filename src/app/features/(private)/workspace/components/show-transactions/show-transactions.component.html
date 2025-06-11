@@ -9,6 +9,7 @@
 
   @for (item of transactions; track $index) {
   <div
+    #transactionItem
     class="flex flex-1 gap-2 p-1 hover:data-[income=true]:bg-sky-50/40 hover:bg-gray-50/40 data-[i=true]:justify-end"
     [attr.data-income]="(item?.amount ?? 0) > 0"
     [attr.data-i]="item?.user?.id === user?.id"
@@ -80,13 +81,16 @@
   <div
     class="flex flex-1 gap-2 justify-center items-center w-full fixed bottom-0 left-0 p-2"
   >
-    @if (isOpenInput()) {
+    @if (!isOpenInput()) {
     <div class="justify-end w-full max-w-[90rem] flex">
       <button
         type="button"
         (click)="handleOpenInput()"
-        class="cursor-pointer h-16 text-gray-300 bg-gradient-to-r from-indigo-500 to-violet-500 px-4 rounded-full flex items-center justify-center"
+        class="cursor-pointer h-10 shadow-xl text-gray-100 bg-gradient-to-r from-indigo-500 to-violet-500 px-4 rounded-full flex items-center justify-center"
       >
+      <span class="text-xl saira-font">
+        Criar
+      </span>
         <mat-icon class="icon-md"> add </mat-icon>
       </button>
     </div>

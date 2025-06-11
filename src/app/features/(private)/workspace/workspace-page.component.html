@@ -1,2 +1,6 @@
 <header-workspace [workspace]="workspace"></header-workspace>
-<show-transactions [transactions]="transactions"></show-transactions>
+<show-transactions
+  [transactions]="transactions"
+  (transactionCreated)="updateTransactions($event)"
+></show-transactions>
+	

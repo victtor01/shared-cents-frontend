@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@app/core/services/auth-service';
+import { ToastService } from '@app/core/services/toast-service';
 
 @Component({
   selector: 'login-component',
@@ -21,7 +17,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toast: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -43,11 +40,12 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.loginForm.value;
 
     const res = this.authService.login(email, password).subscribe({
-      next: (response) => {
-        console.log(response);
+      next: (_) => {
+        this.toast.success('Login realizado com sucesso!');
         this.router.navigate(['/workspaces']);
       },
-      error: (err) => {
+      error: (_) => {
+        this.toast.error('Email ou senha incorretos');
         console.log('Houve um erro');
       },
     });

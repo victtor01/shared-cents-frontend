@@ -6,6 +6,7 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { routes } from './app.routes';
 import { CredentialsInterceptor } from './core/interceptors/credentials.interceptor';
 
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
+    provideAnimations(), 
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CredentialsInterceptor,

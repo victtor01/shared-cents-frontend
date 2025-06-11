@@ -19,11 +19,15 @@ export class DetailsWorkspaceComponent implements OnInit {
   constructor(
     private readonly currRoute: ActivatedRoute,
     private readonly workspaceService: WorkspaceService,
-    private readonly transactionsService: TransactionsService,
+    private readonly transactionsService: TransactionsService
   ) {
     this.currRoute.paramMap.subscribe((params: ParamMap) => {
       this.workspaceId = params.get('workspaceId');
     });
+  }
+
+  public updateTransactions(transaction: FinanceTransaction) {
+    this.transactions = [...[...(this.transactions || [])], transaction];
   }
 
   public ngOnInit(): void {

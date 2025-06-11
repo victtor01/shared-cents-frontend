@@ -1,5 +1,21 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  signal,
+  ViewChildren,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -22,9 +38,13 @@ type TransactionType = 'INCOME' | 'EXPENSE';
   templateUrl: 'show-transactions.component.html',
   imports: [MatIconModule, ReactiveFormsModule],
 })
-export class ShowTransactionsComponent implements OnInit {
+export class ShowTransactionsComponent implements OnInit, AfterViewInit {
   @Input()
   public transactions?: FinanceTransaction[];
+
+  @Output()
+  public transactionCreated = new EventEmitter<FinanceTransaction>();
+
   public isOpenInput = signal<boolean>(false);
   public type = signal<TransactionType>('INCOME');
   public form: FormGroup;
@@ -33,6 +53,9 @@ export class ShowTransactionsComponent implements OnInit {
   private paymentMethods = paymentMethods;
   private legends_paymentsMethods = paymentMethodsLegend;
   private workspaceId?: string;
+
+  @ViewChildren('transactionItem')
+  private transactionItems!: QueryList<ElementRef>;
 
   constructor(
     private readonly authService: AuthService,
@@ -48,6 +71,27 @@ export class ShowTransactionsComponent implements OnInit {
     });
   }
 
+  public ngAfterViewInit(): void {
+    this.transactionItems.changes.subscribe(() => {
+      this.scrollToBottom();
+    });
+  }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      try {
+        if (this.transactionItems && this.transactionItems.last) {
+          this.transactionItems.last.nativeElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'end',
+          });
+        }
+      } catch (err) {
+        console.error('Erro ao rolar a view:', err);
+      }
+    }, 100);
+  }
+
   private createIncome = () => {
     const props = {
       name: this.form.get('name')?.value,
@@ -58,7 +102,9 @@ export class ShowTransactionsComponent implements OnInit {
     } satisfies CreateIncomeSchema;
 
     this.transactionsService.createIncome(props).subscribe((e) => {
-      console.log(e);
+      this.transactionCreated.emit(e);
+      this.isOpenInput.set(false);
+      this.form.reset();
     });
   };
 
