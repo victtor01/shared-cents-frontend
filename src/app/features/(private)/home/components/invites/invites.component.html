@@ -24,6 +24,8 @@
         <span class="text-lg flex-1 font-semibold saira-font text-gray-500">
           {{ invite?.workspace?.name }}
         </span>
+
+        @switch (invite?.status) { @case ("PENDING") {
         <div class="flex gap-2 items-center">
           <button
             class="bg-indigo-50 shadow-indigo-500/30 hover:shadow transition-all cursor-pointer p-1 px-2 rounded text-gray-600 font-0semibold shadow-inner"
@@ -37,6 +39,15 @@
             <span class="saira-font font-semibold"> Recusar </span>
           </button>
         </div>
+        } @case ("DECLINED") {
+        <div class="flex gap-2 items-center text-rose-600 font-semibold">
+          <div>Recusado</div>
+        </div>
+        } @case ("ACCEPTED") {
+        <div class="flex gap-2 items-center text-blue-500 font-semibold">
+          <div>Aceito</div>
+        </div>
+        }}
       </div>
 
       <div class="flex justify-between gap-2">

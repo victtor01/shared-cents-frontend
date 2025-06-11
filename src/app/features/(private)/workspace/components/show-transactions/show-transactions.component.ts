@@ -1,16 +1,26 @@
 import { Component, Input, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { FinanceTransaction } from '@app/core/models/FinanceTransition';
+import { ActivatedRoute } from '@angular/router';
+import {
+  FinanceTransaction,
+  PaymentMethod,
+} from '@app/core/models/FinanceTransition';
 import { User } from '@app/core/models/User';
+import { CreateIncomeSchema } from '@app/core/schemas/create-income.schema';
 import { AuthService } from '@app/core/services/auth-service';
+import { TransactionsService } from '@app/core/services/transactions-service';
 import { formatToBRL } from '@app/shared/utils/format-to-brl';
+import {
+  paymentMethods,
+  paymentMethodsLegend,
+} from '@app/shared/utils/paymentMethods';
 
 type TransactionType = 'INCOME' | 'EXPENSE';
 @Component({
   selector: 'show-transactions',
   templateUrl: 'show-transactions.component.html',
-  imports: [MatIconModule],
+  imports: [MatIconModule, ReactiveFormsModule],
 })
 export class ShowTransactionsComponent implements OnInit {
   @Input()
@@ -18,23 +28,72 @@ export class ShowTransactionsComponent implements OnInit {
   public isOpenInput = signal<boolean>(false);
   public type = signal<TransactionType>('INCOME');
   public form: FormGroup;
-  public user?: User;
+
+  private _user?: User;
+  private paymentMethods = paymentMethods;
+  private legends_paymentsMethods = paymentMethodsLegend;
+  private workspaceId?: string;
 
   constructor(
     private readonly authService: AuthService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly transactionsService: TransactionsService
   ) {
     this.form = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       amount: [null, [Validators.required]],
       payment_method: ['', [Validators.required]],
-      workspaceId: ['', [Validators.required]],
       status: [''],
     });
   }
 
+  private createIncome = () => {
+    const props = {
+      name: this.form.get('name')?.value,
+      payment_method: this.form.get('payment_method')?.value,
+      amount: this.form.get('amount')?.value,
+      workspaceId: this.workspaceId!,
+      description: '',
+    } satisfies CreateIncomeSchema;
+
+    this.transactionsService.createIncome(props).subscribe((e) => {
+      console.log(e);
+    });
+  };
+
+  private createExpense = () => {};
+
   public setType(type: TransactionType) {
     this.type.set(type);
+  }
+
+  public createTransaction() {
+    if (this.form.invalid) {
+      console.log(this.form.errors);
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    if (!this.workspaceId) {
+      alert('SEM ESPAÇO');
+      return;
+    }
+
+    switch (this.type()) {
+      case 'INCOME':
+        this.createIncome();
+        break;
+      case 'EXPENSE':
+        this.createExpense();
+        break;
+    }
+  }
+
+  public selectMethod(method: PaymentMethod) {
+    this.form.patchValue({
+      payment_method: method,
+    });
   }
 
   public handleOpenInput() {
@@ -44,12 +103,32 @@ export class ShowTransactionsComponent implements OnInit {
   public ngOnInit(): void {
     this.authService.currentUser$.subscribe((e) => {
       if (e) {
-        this.user = e;
+        this._user = e;
+      }
+    });
+
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('workspaceId');
+
+      if (id) {
+        this.workspaceId = id;
       }
     });
   }
 
   public formatBRL(v: string | number | null) {
     return formatToBRL(v);
+  }
+
+  get paymentsMethods() {
+    return this.paymentMethods;
+  }
+
+  get user() {
+    return this._user;
+  }
+
+  get legends() {
+    return this.legends_paymentsMethods;
   }
 }

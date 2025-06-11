@@ -1,4 +1,8 @@
-<section class="flex flex-col p-5 mx-auto w-full max-w-[100rem]">
+<form
+  [formGroup]="form"
+  (ngSubmit)="createTransaction()"
+  class="flex flex-col mx-auto w-full max-w-[100rem]"
+>
   <div
     class="absolute inset-0 z-[-1] h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"
   ></div>
@@ -77,11 +81,12 @@
     class="flex flex-1 gap-2 justify-center items-center w-full fixed bottom-0 left-0 p-2"
   >
     @if (isOpenInput()) {
-      <div class="justify-end w-full max-w-[90rem] flex">
-        <button
+    <div class="justify-end w-full max-w-[90rem] flex">
+      <button
+        type="button"
         (click)="handleOpenInput()"
-        class="cursor-pointer h-16 text-gray-300 bg-gradient-to-r from-indigo-500 to-violet-500 px-4 rounded-full flex border items-center justify-center border-dashed"
-        >
+        class="cursor-pointer h-16 text-gray-300 bg-gradient-to-r from-indigo-500 to-violet-500 px-4 rounded-full flex items-center justify-center"
+      >
         <mat-icon class="icon-md"> add </mat-icon>
       </button>
     </div>
@@ -93,6 +98,7 @@
         <h1 class="saira-font font-semibold text-gray-500">Criar</h1>
 
         <button
+          type="button"
           (click)="handleOpenInput()"
           class="border rounded-full cursor-pointer w-8 h-8 grid place-items-center text-gray-400"
         >
@@ -102,6 +108,7 @@
 
       <section class="p-1 bg-gray-50 rounded-lg flex gap-1 mb-2">
         <button
+          type="button"
           (click)="setType('INCOME')"
           [attr.data-selected]="type() === 'INCOME'"
           class="p-1 px-2 rounded-lg data-[selected=true]:bg-white data-[selected=true]:shadow flex-1 hover:bg-gray-100 data-[selected=false]:cursor-pointer"
@@ -110,6 +117,7 @@
         </button>
 
         <button
+          type="button"
           [attr.data-selected]="type() === 'EXPENSE'"
           (click)="setType('EXPENSE')"
           class="p-1 px-2 rounded-lg data-[selected=true]:bg-white data-[selected=true]:shadow flex-1 hover:bg-gray-100 data-[selected=false]:cursor-pointer"
@@ -127,6 +135,7 @@
         </span>
 
         <button
+          type="button"
           [attr.data-paid]="form.get('status')?.value === 'PAID'"
           class="w-10 h-5 border border-gray-200 ring-2 ring-gray-200 bg-gray-200 rounded-full flex items-center data-[paid=true]:justify-end"
         >
@@ -139,10 +148,31 @@
       </section>
       }
 
+      <section class="flex flex-wrap gap-2 p-2">
+        @for (item of paymentsMethods; track $index) {
+        <button
+          type="button"
+          (click)="selectMethod(item)"
+          [attr.data-selected]="item === this.form.get('payment_method')?.value"
+          class="flex p-1 px-2 rounded text-gray-400 border-2 border-transparent data-[selected=true]:border-indigo-900 data-[selected=true]:text-indigo-800"
+        >
+          {{ legends[item] }}
+        </button>
+        }
+      </section>
+
       <section class="flex flex-col gap-2">
         <input
           type="text"
-          class="text-gray-300 border p-2 rounded-xl outline-none"
+          formControlName="name"
+          class="text-gray-600 placeholder:text-gray-300 border-gray-200 border p-2 rounded-lg outline-none"
+          placeholder="Açaí"
+        />
+
+        <input
+          type="text"
+          formControlName="amount"
+          class="text-gray-600 placeholder:text-gray-300 border-gray-200 border p-2 rounded-lg outline-none"
           placeholder="10,00"
         />
       </section>
@@ -157,4 +187,4 @@
     </div>
     }
   </div>
-</section>
+</form>

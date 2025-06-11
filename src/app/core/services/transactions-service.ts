@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FinanceTransaction } from '../models/FinanceTransition';
+import { CreateIncomeSchema } from '../schemas/create-income.schema';
 import { ApiService } from './api-service';
 
 @Injectable({ providedIn: 'root' })
@@ -12,11 +13,10 @@ export class TransactionsService {
     );
   }
 
-  public createIncome() {
-
+  public createIncome(data: CreateIncomeSchema) {
+    const url = '/transactions/income';
+    return this.apiService.post<FinanceTransaction>(url, data);
   }
 
-  public createExpense() {
-
-  }
+  public createExpense() {}
 }

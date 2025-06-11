@@ -14,7 +14,7 @@ export interface FinanceTransaction {
   status?: ExpenseStatus | null;
 }
 
-type PaymentMethod =
+export type PaymentMethod =
   | 'PIX'
   | 'CREDIT_CARD'
   | 'DEBIT_CARD'
