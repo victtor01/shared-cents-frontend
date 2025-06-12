@@ -1,9 +1,18 @@
-<header class="flex flex-col w-full z-20 backdrop-blur-xl items-center justify-between">
+<header
+  class="flex flex-col w-full z-10 backdrop-blur-xl not-dark:shadow-none dark:shadow-xl shadow-black/50 items-center justify-between"
+>
   <div class="w-full relative h-[20rem] bg-indigo-500 flex">
-    <div class="flex w-full relative h-gull"></div>
+    <div class="flex w-full h-full relative">
+      <img
+        src="background_city.png"
+        alt=""
+        style="object-fit: cover"
+        class="w-full h-full"
+      />
+    </div>
 
     <div
-      class="flex items-center justify-center w-16 h-16 bg-white text-gray-500 shadow-xl absolute bottom-[0] translate-y-[50%] rounded-full right-[30%]"
+      class="flex items-center dark:bg-zinc-700 dark:text-white justify-center w-16 h-16 bg-white text-gray-500 shadow-xl absolute bottom-[0] translate-y-[50%] rounded-full right-[30%]"
     >
       <mat-icon class="icon-lg">
         {{ icon(workspace?.icon) }}
@@ -11,29 +20,32 @@
     </div>
   </div>
 
-  <div class="flex justify-between items-center p-2 w-full">
-    <div class="flex items-center gap-2 flex-1">
-      <button class="grid place-items-center opacity-70 hover:opacity-100 cursor-pointer">
-        <mat-icon class="" style="color: var(--color-gray-500)">
+  <div class="flex justify-between items-center flex-col gap-3 sm:flex-row max-w-[100rem] px-5 w-full my-5">
+    <div class="flex items-center gap-2 flex-1 w-full">
+      <button
+        class="grid text-gray-600 place-items-center min-w-10 h-10 bg-gray-100 dark:bg-zinc-700 dark:text-white rounded-full opacity-70 hover:opacity-100 cursor-pointer"
+      >
+        <mat-icon>
           arrow_back_ios_new
         </mat-icon>
       </button>
       <label
         for="name"
-        class="rounded group w-full max-w-[15rem] hover:focus-within:bg-gray-100 focus-within:bg-gray-100 hover:bg-gray-50 flex items-center"
+        class="rounded group w-full max-w-[20rem] hover:focus-within:bg-gray-100 focus-within:bg-gray-100 hover:bg-gray-50 flex items-center
+        dark:focus-within:bg-zinc-700 dark:hover:bg-zinc-700 dark:hover:focus-within:bg-zinc-700"
       >
         <input
-          class="saira-font w-full text-xl p-1 rounded outline-none px-2 font-semibold text-gray-500"
+          class="saira-font w-full text-xl p-1 rounded outline-none px-2 font-semibold text-gray-500 dark:text-white"
           [defaultValue]="workspace?.name || ''"
         />
         <button
-          class="px-3 h-8 place-items-center group-focus-within:grid hidden mr-1 text-white shadow-lg bg-gradient-to-bl from-indigo-400 to-violet-400 rounded"
+          class="px-3 h-6 place-items-center group-focus-within:grid hidden mr-2 text-white shadow-lg bg-blue-500 rounded"
         >
           <span class="text-sm font-semibold saira-font"> Ok </span>
         </button>
       </label>
     </div>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 flex-1 w-full">
       <div class="bg-indigo-100 p-1 px-3 items-center rounded-full text-gray-700">
         <span class="saira-font font-semibold text-lg">
           {{ formatBRL(workspace?.amount) }}

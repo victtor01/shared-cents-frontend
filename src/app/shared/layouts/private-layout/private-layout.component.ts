@@ -20,4 +20,12 @@ export class PrivateLayoutComponent implements OnInit {
       },
     });
   }
+
+  public handleTheme() {
+    const html = document.getElementsByTagName('html')?.[0];
+
+    if (html) {
+      html.className = html.className === 'dark' ? 'light' : 'dark';
+    }
+  }
 }

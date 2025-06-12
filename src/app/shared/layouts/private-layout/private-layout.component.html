@@ -1,3 +1,40 @@
-<section class="flex flex-col h-screen overflow-auto overflow-x-hidden">
-  <router-outlet></router-outlet>
+<section
+  class="flex flex-col h-screen overflow-y-auto p-3 gap-2 overflow-x-hidden bg-gradient-to-b from-stone-50 to-white dark:from-zinc-950 dark:to-black"
+>
+  <header class="p-2 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-indigo-500 relative overflow-hidden rounded-full">
+        <img
+          class="object-cover w-full h-full"
+          src="https://api.dicebear.com/9.x/bottts-neutral/svg?seed=Katherine"
+          alt="avatar"
+        />
+      </div>
+      <span class="saira-font font-semibold text-gray-500 dark:text-gray-200">
+        {{ user?.firstName }}
+      </span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <button
+        (click)="handleTheme()"
+        class="w-10 h-10 cursor-pointer dark:text-zinc-300 dark:hover:text-blue-100 text-zinc-500 grid place-items-center rounded-full bg-zinc-100 dark:bg-zinc-800"
+      >
+        <mat-icon> dark_mode </mat-icon>
+      </button>
+
+      <button
+        class="w-10 h-10 grid place-items-center dark:text-zinc-300 dark:hover:text-blue-100 text-zinc-500 rounded-full bg-zinc-100 dark:bg-zinc-800"
+      >
+        <mat-icon> settings </mat-icon>
+      </button>
+    </div>
+  </header>
+  <section
+    class="flex flex-col flex-1 w-full bg-white border dark:bg-zinc-900/30 rounded-2xl border-zinc-200 overflow-hidden dark:border-zinc-700"
+  >
+    <div class="flex flex-col overflow-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
 </section>

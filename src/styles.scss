@@ -1,5 +1,7 @@
 @use "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 .saira-font {
   font-family: "Saira", sans-serif;
 }

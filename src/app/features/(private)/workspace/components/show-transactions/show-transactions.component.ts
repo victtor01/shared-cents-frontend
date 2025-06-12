@@ -12,20 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
 import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
-import { MoneyInputDirective } from '@app/shared/directives/app-money-input.directive';
 import { ToPaymentMethodIconPipe } from '@app/shared/pipes/to-payment-method-icon.pipe';
 import { formatToBRL } from '@app/shared/utils/format-to-brl';
 
-type TransactionType = 'INCOME' | 'EXPENSE';
 @Component({
   selector: 'show-transactions',
   templateUrl: 'show-transactions.component.html',
-  imports: [
-    MatIconModule,
-    ReactiveFormsModule,
-    ToPaymentMethodIconPipe,
-    MoneyInputDirective,
-  ],
+  imports: [MatIconModule, ReactiveFormsModule, ToPaymentMethodIconPipe],
 })
 export class ShowTransactionsComponent implements OnInit, AfterViewInit {
   @Input()

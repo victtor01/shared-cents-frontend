@@ -1,12 +1,24 @@
-<div class="flex flex-col mx-auto last:pb-[5rem] w-full max-w-[100rem]">
-  <div
-    class="absolute inset-0 z-[-1] h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"
-  ></div>
+<header class="flex items-center justify-between z-10 relative my-2 max-w-[100rem] mx-auto mt-10 px-5">
+  <div class="flex items-center gap-2">
+    <button class="w-10 h-10 grid bg-blue-500 rounded-full text-white place-items-center">
+      <mat-icon>arrow_back_ios_new </mat-icon>
+    </button>
 
+    <span class="flex text-gray-600 p-2 px-4 bg-gray-100 rounded-full dark:bg-zinc-700 dark:text-white"> 12/06/2025 </span>
+
+    <button class="w-10 h-10 grid bg-blue-500 rounded-full text-white place-items-center">
+      <mat-icon> arrow_forward_ios_new </mat-icon>
+    </button>
+  </div>
+</header>
+
+<div
+  class="flex flex-col z-10 mx-5 sm:mx-auto last:pb-[5rem] relative px-5 flex-1 max-w-[100rem] bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-600 max-h-[50rem] overflow-auto mb-10 rounded-xl border"
+>
   @for (item of transactions; track $index) {
   <div
     #transactionItem
-    class="flex flex-1 gap-2 p-1 hover:data-[income=true]:bg-sky-50/40 hover:bg-gray-50/40 data-[i=true]:justify-end"
+    class="flex flex-1 gap-2 p-1 hover:data-[income=true]:bg-sky-50/40 dark:hover:data-[income=true]:bg-zinc-800 hover:bg-gray-50/40 hover:dark:bg-zinc-800 data-[i=true]:justify-end"
     [attr.data-income]="(item?.amount ?? 0) > 0"
     [attr.data-i]="item?.user?.id === user?.id"
   >
@@ -17,18 +29,18 @@
       <div
         [attr.data-income]="(item?.amount ?? 0) > 0"
         [attr.data-paid]="item?.status === 'PAID'"
-        class="flex flex-col w-full flex-1 data-[paid=true]:opacity-70 bg-white data-[income=false]:shadow-zinc-200 p-3 opacity-80 hover:opacity-100 border data-[income=true]:border-indigo-200 border-gray-300 rounded-xl data-[income=true]:bg-indigo-50/50"
+        class="flex flex-col w-full flex-1 data-[paid=true]:opacity-70 dark:data-[income=true]:border-zinc-500 dark:data-[income=true]:bg-zinc-800 bg-white data-[income=false]:shadow-zinc-200 dark:bg-zinc-800 dark:border-zinc-600 dark:text-white p-3 opacity-80 hover:opacity-100 border data-[income=true]:border-indigo-200 border-gray-300 rounded-xl data-[income=true]:bg-indigo-50/50"
       >
-        <div class="flex justify-between items-center gap-2">
+        <div class="flex justify-between items-center gap-2 flex-wrap">
           @if ((item?.amount ?? 0) > 0) {
           <div
-            class="grid place-items-center text-indigo-600 w-10 h-10 rounded-full bg-indigo-100"
+            class="grid place-items-center text-indigo-600 dark:text-indigo-100 dark:bg-indigo-500 w-10 h-10 rounded-full bg-indigo-100"
           >
             <mat-icon> trending_up </mat-icon>
           </div>
           }@else {
           <div
-            class="grid place-items-center text-gray-500 w-10 h-10 rounded-full bg-gray-100"
+            class="grid place-items-center text-gray-500 w-10 h-10 rounded-full bg-gray-100 dark:bg-zinc-700"
           >
             <mat-icon> trending_down </mat-icon>
           </div>
@@ -37,14 +49,14 @@
           <div class="flex flex-1 gap-2">
             <div
               [attr.data-income]="(item?.amount ?? 0) > 0"
-              class="font-semibold overflow-hidden w-20 text-ellipsis saira-font data-[income=true]:text-indigo-600 text-gray-700"
+              class="font-semibold overflow-hidden w-20 dark:text-gray-200 text-ellipsis saira-font data-[income=true]:text-indigo-600 dark:data-[income=true]:text-indigo-100 text-gray-700"
             >
               {{ item.name }}
             </div>
 
             <div
               [attr.data-income]="(item?.amount ?? 0) > 0"
-              class="font-semibold overflow-hidden w-20 text-sm text-ellipsis saira-font data-[income=true]:text-indigo-600 text-gray-700"
+              class="font-semibold overflow-hidden w-20 dark:text-gray-200 text-sm text-ellipsis saira-font data-[income=true]:text-indigo-200 text-gray-700"
             >
               <mat-icon class="icon-sm">
                 {{ item?.paymentMethod | toPaymentMethodIcon }}
@@ -54,7 +66,7 @@
 
           @if (item?.status === "PAID") {
           <div
-            class="bg-gray-100 rounded-full mx-3 text-gray-700 saira-font text-sm p-1 px-2"
+            class="bg-gray-100 rounded-full mx-3 dark:text-gray-200 dark:bg-zinc-700 text-gray-700 saira-font text-sm p-1 px-2"
           >
             Pago
           </div>
@@ -64,7 +76,7 @@
             [attr.data-income]="(item?.amount ?? 0) > 0"
             class="data-[income=true]:text-indigo-500 text-nowrap text-gray-500"
           >
-            <span class="text-lg font-semibold saira-font">
+            <span class="text-lg font-semibold saira-font dark:text-gray-100">
               {{ formatBRL(item?.amount || 0) }}
             </span>
           </div>

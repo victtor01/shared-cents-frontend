@@ -1,8 +1,8 @@
 <div class="flex gap-4 p-4 flex-col">
-  <header class="bg-white relative flex items-center gap-4">
+  <header class="relative flex items-center gap-4">
     <user-options [user]="user || undefined"></user-options>
     <div
-      class="border rounded-full focus-within:ring-2 focus-within:border-sky-500 ring-sky-400 border-zinc-200 flex-1 overflow-hidden items-center flex"
+      class="border rounded-full focus-within:ring-2 focus-within:border-sky-500 dark:bg-zinc-700 dark:border-zinc-700 ring-sky-400 border-zinc-200 flex-1 overflow-hidden items-center flex"
     >
       <span class="px-2 items-center flex">
         <mat-icon style="color: var(--color-gray-300)">search</mat-icon>
@@ -10,7 +10,7 @@
       <input
         type="text"
         placeholder="search here..."
-        class="placeholder:text-gray-400 py-2 flex-1 saira-font outline-none"
+        class="placeholder:text-gray-400 py-2 flex-1 saira-font outline-none dark:text-gray-100"
       />
     </div>
 
@@ -26,25 +26,24 @@
   >
     @for (item of workspaces; track $index) {
     <div
-      class="flex flex-1 flex-col pb-4 bg-gray-50 overflow-hidden rounded-lg border-zinc-200"
+      class="flex flex-1 flex-col pb-4 dark:bg-zinc-800 bg-gray-50 overflow-hidden rounded-lg border-zinc-200"
     >
       <div
-        class="w-full h-[4px] bg-sky-500/40 shadow-[inset_0px_-10px_20px_-10px_var(--color-gray-600)]"
+        class="w-full h-[4px] bg-sky-500/40 dark:bg-sky-500 shadow-[inset_0px_-10px_20px_-10px_var(--color-gray-600)]"
       ></div>
 
       <header class="flex items-center justify-between mt-4 px-4">
         <div class="flex items-center gap-2">
           <div
-            class="w-10 h-10 rounded-full bg-gray-100 grid place-items-center"
+            class="w-10 h-10 rounded-full bg-gray-100 dark:bg-zinc-700 grid place-items-center text-gray-400 dark:text-zinc-200"
           >
             <mat-icon
-              style="color: var(--color-gray-400)"
               fontSet="material-symbols-outlined"
             >
               {{ handleIcon(item?.icon) }}
             </mat-icon>
           </div>
-          <h2 class="saira-font font-semibold text-gray-700">
+          <h2 class="saira-font font-semibold text-gray-700 dark:text-gray-200">
             {{ item?.name }}
           </h2>
         </div>
