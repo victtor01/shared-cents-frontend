@@ -21,4 +21,4 @@ export type PaymentMethod =
   | 'BANK_TRANSFER'
   | 'CASH';
 
-type ExpenseStatus = 'PAID' | 'PENDING';
+export type ExpenseStatus = 'PAID' | 'PENDING';

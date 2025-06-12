@@ -1,7 +1,7 @@
-export const ICONS = {
+export const ICONS: Record<string, string> = {
   HOME: 'home',
   MONEY: 'attach_money',
-} satisfies Record<string, string>;
+} as const;
 
 type IconKey = keyof typeof ICONS;
 

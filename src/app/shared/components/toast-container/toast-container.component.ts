@@ -1,5 +1,5 @@
 import { Component, Signal } from '@angular/core';
-import { Toast, ToastService } from '@app/core/services/toast-service';
+import { Toast, ToastService } from '@app/core/services/toast.service';
 import { ToastComponent } from '../toast/toast.component';
 
 @Component({

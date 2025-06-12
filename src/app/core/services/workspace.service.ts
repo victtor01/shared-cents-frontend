@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Workspace } from '../models/Workspace';
-import { ApiService } from './api-service';
+import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class WorkspaceService {

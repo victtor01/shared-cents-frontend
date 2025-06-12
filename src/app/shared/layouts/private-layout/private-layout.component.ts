@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { User } from '@app/core/models/User';
-import { AuthService } from '@app/core/services/auth-service';
+import { AuthService } from '@app/core/services/auth.service';
 
 @Component({
   templateUrl: './private-layout.component.html',

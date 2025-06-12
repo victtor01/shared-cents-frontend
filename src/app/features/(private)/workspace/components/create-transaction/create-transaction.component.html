@@ -1,0 +1,113 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="createTransaction()"
+  class="flex flex-1 gap-2 justify-center items-center w-full fixed bottom-0 left-0 p-2"
+>
+  @if (!isOpenInput()) {
+  <div class="justify-end w-full max-w-[90rem] flex">
+    <button
+      type="button"
+      (click)="handleOpenInput()"
+      class="cursor-pointer h-10 shadow-xl text-gray-100 bg-gradient-to-r from-indigo-500 to-violet-500 px-4 rounded-full flex items-center justify-center"
+    >
+      <span class="text-xl saira-font"> Criar </span>
+      <mat-icon class="icon-md"> add </mat-icon>
+    </button>
+  </div>
+  } @else {
+  <div
+    class="flex flex-col p-2 w-full bg-white mb-5 mx-5 max-w-[30rem] rounded-xl border gap-2 border-gray-200"
+  >
+    <header class="flex justify-between items-center">
+      <h1 class="saira-font font-semibold text-gray-500">Criar</h1>
+
+      <button
+        type="button"
+        (click)="handleOpenInput()"
+        class="border rounded-full cursor-pointer w-8 h-8 grid place-items-center text-gray-400"
+      >
+        <mat-icon class="icon-sm"> close </mat-icon>
+      </button>
+    </header>
+
+    <section class="p-1 bg-gray-50 rounded-lg flex gap-1 mb-2">
+      <button
+        type="button"
+        (click)="setType('INCOME')"
+        [attr.data-selected]="type() === 'INCOME'"
+        class="p-1 px-2 rounded-lg data-[selected=true]:bg-white data-[selected=true]:shadow flex-1 hover:bg-gray-100 data-[selected=false]:cursor-pointer"
+      >
+        <span class="font-semibold saira-font text-gray-500"> Entrada </span>
+      </button>
+
+      <button
+        type="button"
+        [attr.data-selected]="type() === 'EXPENSE'"
+        (click)="setType('EXPENSE')"
+        class="p-1 px-2 rounded-lg data-[selected=true]:bg-white data-[selected=true]:shadow flex-1 hover:bg-gray-100 data-[selected=false]:cursor-pointer"
+      >
+        <span class="font-semibold saira-font text-gray-500"> Saída </span>
+      </button>
+    </section>
+
+    @if (type() === "EXPENSE") {
+    <section
+      class="flex mb-2 bg-gray-100/50 rounded-full p-2 gap-2 items-center justify-between"
+    >
+      <span class="saira-font font-semibold text-gray-600"> Pagar agora </span>
+
+      <button
+        type="button"
+        (click)="handleStatus()"
+        [attr.data-paid]="form.get('status')?.value === 'PAID'"
+        class="w-10 h-5 border border-gray-200 ring-2 ring-gray-200 bg-gray-200 rounded-full flex items-center data-[paid=true]:justify-end"
+      >
+        <span
+          [attr.data-paid]="form.get('status')?.value === 'PAID'"
+          class="w-5 h-5 bg-gray-500 rounded-full data-[paid=true]:bg-indigo-500"
+        >
+        </span>
+      </button>
+    </section>
+    }
+
+    <section class="flex flex-wrap gap-2 p-2">
+      @for (item of paymentsMethods; track $index) {
+      <button
+        type="button"
+        (click)="selectMethod(item)"
+        [attr.data-selected]="item === this.form.get('payment_method')?.value"
+        class="flex p-1 px-2 rounded text-gray-400 border-2 border-transparent data-[selected=true]:bg-indigo-600 data-[selected=false]:cursor-pointer data-[selected=false]:hover:bg-gray-100 data-[selected=true]:text-indigo-50"
+      >
+        {{ legends[item] }}
+      </button>
+      }
+    </section>
+
+    <section class="flex flex-col gap-2">
+      <input
+        type="text"
+        formControlName="name"
+        class="text-gray-600 placeholder:text-gray-300 border-gray-200 border p-2 rounded-lg outline-none"
+        placeholder="Açaí"
+      />
+
+      <input
+        type="text"
+        appMoneyInput
+        formControlName="amount"
+        class="text-gray-600 placeholder:text-gray-300 border-gray-200 border p-2 rounded-lg outline-none"
+        placeholder="10,00"
+      />
+    </section>
+
+    <footer class="flex flex-col mt-2">
+      <button
+        class="flex p-2 bg-indigo-500 text-blue-100 opacity-90 hover:opacity-100 hover:shadow-lg shadow shadow-sky-200 transition-all rounded-full cursor-pointer items-center justify-center"
+      >
+        <span class="saira-font font-semibold"> Criar </span>
+      </button>
+    </footer>
+  </div>
+  }
+</form>

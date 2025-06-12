@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '@app/core/services/auth-service';
-import { ToastService } from '@app/core/services/toast-service';
+import { AuthService } from '@app/core/services/auth.service';
+import { ToastService } from '@app/core/services/toast.service';
 
 @Component({
   selector: 'login-component',
@@ -32,14 +32,13 @@ export class LoginComponent implements OnInit {
     this.isSubmited = true;
 
     if (this.loginForm.invalid) {
-      console.log('Formulário inválido');
       this.loginForm.markAllAsTouched();
       return;
     }
 
     const { email, password } = this.loginForm.value;
 
-    const res = this.authService.login(email, password).subscribe({
+    this.authService.login(email, password).subscribe({
       next: (_) => {
         this.toast.success('Login realizado com sucesso!');
         this.router.navigate(['/workspaces']);
@@ -49,8 +48,6 @@ export class LoginComponent implements OnInit {
         console.log('Houve um erro');
       },
     });
-
-    console.log(res);
   }
 
   get email() {

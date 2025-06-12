@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Invite } from '@app/core/models/Invite';
-import { InvitesService } from '@app/core/services/invites-service';
+import { InvitesService } from '@app/core/services/invites.service';
 
 @Component({
   templateUrl: './invites.component.html',

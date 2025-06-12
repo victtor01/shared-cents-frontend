@@ -6,7 +6,7 @@ export const paymentMethods = [
   'DEBIT_CARD',
   'BANK_TRANSFER',
   'CASH',
-] satisfies PaymentMethod[];
+] as const satisfies PaymentMethod[];
 
 export const paymentMethodsLegend = {
   PIX: 'PIX',

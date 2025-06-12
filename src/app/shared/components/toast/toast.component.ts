@@ -1,13 +1,7 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Toast } from '@app/core/services/toast-service';
+import { Toast } from '@app/core/services/toast.service';
 
 @Component({
   selector: 'app-toast',
@@ -17,14 +11,15 @@ import { Toast } from '@app/core/services/toast-service';
   imports: [CommonModule],
   animations: [
     trigger('toastTrigger', [
-      state('visible', style({ transform: 'scale(1)', opacity: 1 })),
-      state('leaving', style({ transform: 'scale(0.5)', opacity: 0 })),
+      state('visible', style({ transform: 'scale(1) translateY(0)', opacity: 1 })),
+      state('leaving', style({ transform: 'scale(0.5) translateY(-3rem)', opacity: 0 })),
 
       transition('void => visible', [
-        style({ transform: 'scale(0)', opacity: 0 }),
-        animate('300ms ease-out'),
+        style({ transform: 'scale(0) translateY(-3rem)', opacity: 0 }),
+        animate('200ms ease-out'),
       ]),
-      transition('visible => leaving', [animate('300ms ease-in')]),
+
+      transition('visible => leaving', [animate('200ms ease-in')]),
     ]),
   ],
 })

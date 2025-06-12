@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { FinanceTransaction } from '../models/FinanceTransition';
+import { CreateExpenseSchema } from '../schemas/create-expense.schema';
 import { CreateIncomeSchema } from '../schemas/create-income.schema';
-import { ApiService } from './api-service';
+import { ApiService } from './api.service';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getAll(workspaceId: string) {
-    return this.apiService.get<FinanceTransaction[]>(
-      `/transactions/${workspaceId}`
-    );
+    return this.apiService.get<FinanceTransaction[]>(`/transactions/${workspaceId}`);
   }
 
   public createIncome(data: CreateIncomeSchema) {
@@ -18,5 +17,8 @@ export class TransactionsService {
     return this.apiService.post<FinanceTransaction>(url, data);
   }
 
-  public createExpense() {}
+  public createExpense(data: CreateExpenseSchema) {
+    const url = '/transactions/expense';
+    return this.apiService.post<FinanceTransaction>(url, data);
+  }
 }
