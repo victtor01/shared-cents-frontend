@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
 import { Workspace } from '@app/core/models/Workspace';
+import { ToastService } from '@app/core/services/toast.service';
 import { TransactionsService } from '@app/core/services/transactions.service';
 import { WorkspaceService } from '@app/core/services/workspace.service';
 import { CreateTransactionComponent } from './components/create-transaction/create-transaction.component';
 import { HeaderWorkspaceComponent } from './components/header/header-workspace.component';
+import { MainInstallmentComponent } from './components/main-installment/main-installment.component';
 import { ShowTransactionsComponent } from './components/show-transactions/show-transactions.component';
 
 @Component({
@@ -13,6 +15,7 @@ import { ShowTransactionsComponent } from './components/show-transactions/show-t
     HeaderWorkspaceComponent,
     ShowTransactionsComponent,
     CreateTransactionComponent,
+    MainInstallmentComponent,
   ],
   templateUrl: './workspace-page.component.html',
 })
@@ -24,7 +27,8 @@ export class DetailsWorkspaceComponent implements OnInit {
   constructor(
     private readonly currRoute: ActivatedRoute,
     private readonly workspaceService: WorkspaceService,
-    private readonly transactionsService: TransactionsService
+    private readonly transactionsService: TransactionsService,
+    private readonly toastService: ToastService
   ) {
     this.currRoute.paramMap.subscribe((params: ParamMap) => {
       this.workspaceId = params.get('workspaceId');
@@ -34,8 +38,17 @@ export class DetailsWorkspaceComponent implements OnInit {
   public updateTransactions(transaction: FinanceTransaction) {
     this.transactions = [...[...(this.transactions || [])], transaction];
 
-    if (this.workspace && this.workspace.amount !== undefined) {
-      this.workspace.amount += transaction?.amount || 0;
+    if (
+      this?.workspace?.amount &&
+      transaction?.amount < 0 &&
+      transaction?.status === 'PAID'
+    ) {
+      if (this?.workspace?.amount > Math.abs(transaction?.amount)) {
+        this.workspace.amount += transaction?.amount || 0;
+        return;
+      }
+
+      this.toastService.error('Valor para saída inválida!');
     }
   }
 

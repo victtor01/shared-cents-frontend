@@ -13,7 +13,7 @@ import { paymentMethods, paymentMethodsLegend } from '@app/shared/utils/payment-
 type TransactionType = 'INCOME' | 'EXPENSE';
 
 @Component({
-	selector: "create-transaction",
+  selector: 'create-transaction',
   templateUrl: './create-transaction.component.html',
   imports: [MatIconModule, ReactiveFormsModule, MoneyInputDirective],
 })
@@ -25,7 +25,7 @@ export class CreateTransactionComponent implements OnInit {
 
   public isOpenInput = signal<boolean>(false);
   public type = signal<TransactionType>('INCOME');
-
+  
   @Output()
   public transactionCreated = new EventEmitter<FinanceTransaction>();
 
@@ -120,9 +120,10 @@ export class CreateTransactionComponent implements OnInit {
         this.isOpenInput.set(false);
         this._form.reset();
       },
-      error: (e) => {
-        console.log(e);
-        this.toast.error('Houve um erro');
+      error: (e: unknown) => {
+        if (e instanceof Error) {
+          this.toast.error(`Erro: ${e.message}`);
+        }
       },
     });
   };

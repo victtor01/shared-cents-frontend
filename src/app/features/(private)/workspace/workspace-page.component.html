@@ -2,8 +2,8 @@
   <div
     class="absolute pointer-events-none inset-0 top-0 z-0 h-full w-full bg-transparent bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(var(--color-gray-700)_1px,transparent_1px)] [background-size:16px_16px]"
   ></div>
-  
   <header-workspace [workspace]="workspace"></header-workspace>
+  <main-installment></main-installment>
   <show-transactions [transactions]="transactions"></show-transactions>
   <create-transaction
     (transactionCreated)="updateTransactions($event)"
