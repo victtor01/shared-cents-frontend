@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core'; // Importe OnInit
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {
   ApexChart,
@@ -25,14 +25,20 @@ export type ChartOptions = {
   templateUrl: './pie-grid-chart.component.html',
   styleUrl: './pie-grid-chart.component.scss',
 })
-export class PieGridChartComponent {
-  @ViewChild('chart') chart?: ChartComponent;
+export class PieGridChartComponent implements OnInit { // Implemente OnInit
+  @ViewChild('chart')
+  public chart?: ChartComponent;
+  public chartOptions!: ChartOptions; // Use o operador de asserção de atribuição definida para evitar erros de inicialização
 
-  public chartOptions: ChartOptions;
+  @Input()
+  public value: number = 0;
 
-  constructor() {
+  constructor() {} // Mantenha o construtor vazio ou para injeção de dependências
+
+  ngOnInit(): void {
+    // Agora 'this.value' já tem o valor passado pelo input
     this.chartOptions = {
-      series: [50],
+      series: [this.value], // Use 'this.value' aqui
       chart: {
         height: 90,
         type: 'radialBar',
@@ -62,11 +68,11 @@ export class PieGridChartComponent {
               fontSize: '1rem',
             },
             value: {
-              formatter: (val) => parseInt(val.toString()).toString() + "%",
+              formatter: (val) => parseInt(val.toString()).toString() + '%',
               color: 'var(--chart-value-text-color)',
               fontSize: '1rem',
               offsetY: 5,
-              fontFamily: "arial",
+              fontFamily: 'arial',
               fontWeight: 600,
               show: true,
             },
