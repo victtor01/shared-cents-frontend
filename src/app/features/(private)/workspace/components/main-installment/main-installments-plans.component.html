@@ -1,31 +1,30 @@
 <div class="flex flex-wrap gap-2">
-  <div
-    class="flex w-full hover:shadow-xl hover:scale-[1.005] transition-all max-w-[25rem] bg-white overflow-visible relative dark:bg-zinc-900 rounded-xl shadow"
+  <button
+    class="flex w-full hover:shadow-xl cursor-pointer hover:scale-[1.005] transition-all max-w-[25rem] bg-white overflow-visible relative dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800"
   >
     <app-pie-grid-chart [value]="10"></app-pie-grid-chart>
 
-    <section class="flex flex-col flex-1 px-2 overflow-hidden">
-      <header class="flex gap-2 justify-between items-center w-full p-2">
+    <section class="flex flex-col flex-1 overflow-hidden p-2">
+      <header class="flex gap-2 justify-between items-center w-full">
         <div
           class="saira-font flex flex-col font-semibold text-gray-600 dark:text-gray-100"
         >
           <span> Bicicleta </span>
         </div>
         <div
-          class="text-sm flex gap-2 font-semibold text-gray-500 dark:text-gray-100 justify-end saira-font"
+          class="text-sm flex font-semibold text-gray-500 dark:text-gray-100 justify-end saira-font"
         >
-          <span
-            class="text-indigo-500 rounded dark:text-indigo-200 px-2 bg-indigo-50 dark:bg-indigo-500/20 font-semibold"
-          >
+          <span class="text-indigo-500 rounded dark:text-indigo-200 px-2 font-semibold">
             {{ 10000 | toFormatBrl }}
           </span>
-          <span class="px-2 border-l border-zinc-300"> {{ 20000 | toFormatBrl }} </span>
+          /
+          <span class="px-2"> {{ 20000 | toFormatBrl }} </span>
         </div>
       </header>
 
       <div class="flex-1 relative overflow-hidden">
         <div
-          class="dark:text-zinc-200 text-sm px-2 pb-2 whitespace-nowrap overflow-hidden text-ellipsis"
+          class="dark:text-zinc-200 text-sm whitespace-nowrap opacity-30 overflow-hidden text-ellipsis"
         >
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus ducimus
           reprehenderit, aspernatur Lorem ipsum dolor sit amet consectetur adipisicing
@@ -33,5 +32,13 @@
         </div>
       </div>
     </section>
-  </div>
+  </button>
+
+  <button
+    class="grid place-items-center w-full transition-all max-w-[10rem] opacity-70 hover:opacity-100 cursor-pointer text-gray-500 overflow-visible relative dark:bg-zinc-900 rounded-xl border border-dashed"
+  >
+    <span class="w-10 h-10 rounded-full border grid place-items-center border-dashed">
+      <mat-icon>add_2</mat-icon>
+    </span>
+  </button>
 </div>

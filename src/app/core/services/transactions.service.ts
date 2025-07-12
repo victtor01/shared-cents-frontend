@@ -9,7 +9,9 @@ export class TransactionsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getAll(workspaceId: string) {
-    return this.apiService.get<FinanceTransaction[]>(`/transactions/${workspaceId}`);
+    return this.apiService.get<{ date: string; transactions: FinanceTransaction[] }[]>(
+      `/transactions/${workspaceId}`
+    );
   }
 
   public createIncome(data: CreateIncomeSchema) {

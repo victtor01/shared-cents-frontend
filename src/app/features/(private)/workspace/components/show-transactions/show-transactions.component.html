@@ -38,33 +38,60 @@
     </div>
   </header>
 
-  <div
-    class="flex flex-col z-10 last:pb-0 relative flex-1 bg-white dark:bg-black border-zinc-200 dark:border-zinc-600 max-h-[30rem] overflow-auto rounded-xl border"
+  <section class="grid grid-cols-7 gap-3 relative">
+    @for (item of transactions; track $index) {
+    <button
+      [attr.data-item]="!!item?.transactions?.length"
+      class="flex flex-col flex-1 relative p-2 border group rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-300 dark:border-zinc-800 h-[10rem] data-[item=false]:opacity-70"
+      [ngClass]="getDayClass(item?.transactions?.length)"
+    >
+      <header
+        class="flex dark:text-white items-center w-full text-gray-600 saira-font font-semibold justify-between"
+      >
+        {{ item?.date | date : "dd" }}
+
+        <div>
+          {{ item?.date | date : "EEE" : undefined : "pt-BR" }}
+        </div>
+      </header>
+
+      <div
+        [attr.data-item]="!!item?.transactions?.length"
+        class="absolute bottom-2 right-2 w-8 h-8 bg-gray-100 dark:bg-zinc-800 rounded-full grid place-items-center font-semibold text-gray-500 dark:text-white group-hover:bg-violet-600 group-hover:text-white transition-all data-[item=true]:bg-violet-100 dark:data-[item=true]:bg-violet-500/20 dark:group-hover:data-[item=true]:bg-violet-500 group-hover:data-[item=true]:bg-violet-500"
+      >
+        {{ item?.transactions?.length }}
+      </div>
+    </button>
+    }
+  </section>
+
+  <!-- <div
+    class="flex flex-col z-10 last:pb-0 relative flex-1 bg-white dark:bg-black border-zinc-200 dark:border-zinc-700 max-h-[30rem] overflow-auto rounded-xl border"
   >
     @for (item of transactions; track $index) {
     <div
       #transactionItem
-      class="flex flex-1 gap-2 hover:data-[income=true]:bg-sky-50/40 dark:hover:data-[income=true]:bg-zinc-900 hover:bg-gray-50/40 hover:dark:bg-zinc-800 data-[i=true]:justify-end"
+      class="flex flex-1 gap-2 group hover:data-[income=true]:bg-sky-50/40 dark:hover:data-[income=true]:bg-zinc-900 hover:bg-gray-50/40 hover:dark:bg-zinc-800 data-[i=true]:justify-end"
       [attr.data-income]="(item?.amount ?? 0) > 0"
       [attr.data-i]="item?.user?.id === user?.id"
     >
       <div
         [attr.data-income]="(item?.amount ?? 0) > 0"
         [attr.data-paid]="item?.status === 'PAID'"
-        class="flex-col w-full hover:shadow-xl dark:hover:shadow-black hover:z-20 flex-1 data-[paid=true]:opacity-70 dark:data-[income=true]:border-zinc-700  dark:data-[income=true]:bg-zinc-950 data-[income=false]:shadow-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white p-3 opacity-80 hover:opacity-100 border-b data-[income=true]:border-indigo-200 border-gray-300 data-[income=true]:bg-indigo-50/50"
+        class="flex-col w-full hover:shadow-xl dark:hover:shadow-black hover:z-20 group flex-1 data-[paid=true]:opacity-70 dark:data-[income=true]:border-zinc-700 dark:data-[income=true]:bg-zinc-950 data-[income=false]:shadow-zinc-200 dark:bg-zinc-900 dark:border-zinc-700 dark:text-white p-3 opacity-80 hover:opacity-100 data-[income=true]:border-indigo-200 border-gray-300 data-[income=true]:bg-indigo-50/30"
       >
-        <div class="justify-between items-center grid grid-cols-5 gap-2 flex-wrap">
+        <div class="justify-between items-center grid grid-cols-6 gap-2 flex-wrap">
           @if ((item?.amount ?? 0) > 0) {
           <div
-            class="grid place-items-center text-indigo-600 dark:text-indigo-100 dark:bg-indigo-500 w-6 h-6 rounded-full bg-indigo-100"
+            class="grid place-items-center text-indigo-600 dark:text-indigo-100 dark:bg-indigo-500 w-8 h-8 rounded-full bg-indigo-100"
           >
-            <mat-icon class="icon-xs"> trending_up </mat-icon>
+            <mat-icon class="icon-sm"> trending_up </mat-icon>
           </div>
           }@else {
           <div
-            class="grid place-items-center text-gray-500 w-6 h-6 rounded-full bg-gray-100 dark:bg-zinc-700 dark:text-zinc-200"
+            class="grid place-items-center text-gray-500 w-8 h-8 rounded-full bg-gray-100 dark:bg-zinc-700 dark:text-zinc-200"
           >
-            <mat-icon class="icon-xs"> trending_down </mat-icon>
+            <mat-icon class="icon-sm"> trending_down </mat-icon>
           </div>
           }
 
@@ -108,9 +135,15 @@
               {{ formatBRL(item?.amount || 0) }}
             </span>
           </div>
+
+          <div
+            class="flex w-10 h-10 items-center justify-center rounded-full bg-gray-800 text-indigo-100 col-span-1 justify-self-end scale-0 group-hover:scale-[1] transition-all"
+          >
+            <mat-icon>arrow_downward</mat-icon>
+          </div>
         </div>
       </div>
     </div>
     }
-  </div>
+  </div> -->
 </section>
