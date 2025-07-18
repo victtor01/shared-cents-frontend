@@ -1,0 +1,43 @@
+<section
+  class="grid grid-cols-1 lg:grid-cols-4 pb-[5rem] xl:grid-cols-5 2xl:grid-cols-6 px-5 gap-5"
+>
+  @for(transaction of transactions; track $index) {
+  <div
+    class="p-3 items-center border border-zinc-200/60 dark:border-zinc-700/50 gap-2 flex multi-shadow bg-white dark:bg-zinc-900 rounded-xl text-gray-500 dark:text-white"
+  >
+    <div
+      [attr.data-positive]="transaction.amount > 0"
+      class="border bg-white grid place-items-center rounded-lg px-2 py-3 border-zinc-200 dark:border-none dark:bg-zinc-800 data-[positive=true]:text-indigo-500 text-rose-500"
+    >
+      @if(transaction.amount > 1) {
+      <mat-icon>arrow_upward</mat-icon>
+      }@else {
+      <mat-icon>arrow_downward</mat-icon>
+      }
+    </div>
+
+    <div class="flex flex-col flex-1 rounded-xl h-full">
+      <header
+        class="flex justify-between flex-1 items-center gap-2 saira-font font-semibold"
+      >
+        <span>
+          {{ transaction?.name }}
+        </span>
+        <span>
+          {{ transaction.amount | toFormatBrl }}
+        </span>
+      </header>
+
+      <section class="flex justify-between items-center">
+        <span class="opacity-80">
+          {{ transaction.createdAt | date : "'criado às ' HH:mm " }}
+        </span>
+
+        <mat-icon class="opacity-60 icon-xs">
+          {{ transaction?.paymentMethod | toPaymentMethodIcon }}
+        </mat-icon>
+      </section>
+    </div>
+  </div>
+  }
+</section>

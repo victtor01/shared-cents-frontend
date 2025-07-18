@@ -10,7 +10,13 @@ export class TransactionsService {
 
   public getAll(workspaceId: string) {
     return this.apiService.get<{ date: string; transactions: FinanceTransaction[] }[]>(
-      `/transactions/${workspaceId}`
+      `/transactions/workspace/${workspaceId}`
+    );
+  }
+
+  public findByDate(workspaceId: string, date: string) {
+    return this.apiService.get<FinanceTransaction[]>(
+      `/transactions/workspace/${workspaceId}/${date}`
     );
   }
 

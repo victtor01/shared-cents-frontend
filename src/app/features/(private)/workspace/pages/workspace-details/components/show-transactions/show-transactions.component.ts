@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
 import { User } from '@app/core/models/User';
 import { AuthService } from '@app/core/services/auth.service';
@@ -24,17 +25,52 @@ import { formatToBRL } from '@app/shared/utils/format-to-brl';
 export class ShowTransactionsComponent implements OnInit, AfterViewInit {
   @Input()
   public transactions?: { date: string; transactions: FinanceTransaction[] }[];
+
   private _user?: User;
 
   @ViewChildren('transactionItem')
   private transactionItems!: QueryList<ElementRef>;
 
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
+  ) {}
 
   public ngAfterViewInit(): void {
     this.transactionItems.changes.subscribe(() => {
       this.scrollToBottom();
     });
+  }
+
+  public getPositiveCount(dailyTransactions: FinanceTransaction[]): number {
+    if (!dailyTransactions) return 0;
+    return dailyTransactions.filter((t) => t.amount > 0).length;
+  }
+
+  public getNegativeCount(dailyTransactions: FinanceTransaction[]): number {
+    if (!dailyTransactions) return 0;
+    return dailyTransactions.filter((t) => t.amount < 0).length;
+  }
+
+  public redirectToDetails(date: string) {
+    this.router.navigate([date], { relativeTo: this.route });
+  }
+
+  public getPositivePercetage(dailyTransactions: FinanceTransaction[]): number {
+    if (!dailyTransactions || dailyTransactions?.length === 0) {
+      return 0;
+    }
+
+    const positiveCount = this.getPositiveCount(dailyTransactions);
+    const negativeCount = this.getNegativeCount(dailyTransactions);
+    const total = positiveCount + negativeCount;
+
+    if (total === 0) {
+      return 0;
+    }
+
+    return (positiveCount / total) * 100;
   }
 
   get user() {
@@ -64,12 +100,11 @@ export class ShowTransactionsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  
-
   public isToday(dateString: string): boolean {
     if (!dateString) {
       return false;
     }
+
     const today = new Date();
     const inputDate = new Date(dateString + 'T00:00:00');
 
@@ -82,7 +117,7 @@ export class ShowTransactionsComponent implements OnInit, AfterViewInit {
 
   public getDayClass(transactionCount: number | undefined): string {
     const count = transactionCount ?? 0; // Garante que temos um número
-
+  
     if (count > 5) {
       return 'bg-gradient-to-b from-indigo-300 to-white dark:from-violet-600 dark:to-zinc-900'; //  Esmeralda para muitos
     }

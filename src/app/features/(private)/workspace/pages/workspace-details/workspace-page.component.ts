@@ -17,14 +17,14 @@ import { ShowTransactionsComponent } from './components/show-transactions/show-t
     ShowTransactionsComponent,
     CreateTransactionComponent,
     MainInstallmentComponent,
-    IncomeExpensesComponent
+    IncomeExpensesComponent,
   ],
   templateUrl: './workspace-page.component.html',
 })
 export class DetailsWorkspaceComponent implements OnInit {
   private workspaceId?: string | null;
   public workspace?: Workspace;
-  public transactions?:  { date: string, transactions: FinanceTransaction[] }[];
+  public transactions?: { date: string; transactions: FinanceTransaction[] }[];
 
   constructor(
     private readonly currRoute: ActivatedRoute,
@@ -39,7 +39,6 @@ export class DetailsWorkspaceComponent implements OnInit {
 
   public updateTransactions(transaction: FinanceTransaction) {
     // this.transactions = [...[...(this.transactions || [])], transaction];
-
     // if (
     //   this?.workspace?.amount &&
     //   transaction?.amount < 0 &&
@@ -49,7 +48,6 @@ export class DetailsWorkspaceComponent implements OnInit {
     //     this.workspace.amount += transaction?.amount || 0;
     //     return;
     //   }
-
     //   this.toastService.error('Valor para saída inválida!');
     // }
   }

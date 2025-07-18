@@ -22,7 +22,7 @@ body {
 
 mat-icon {
   /* ... outras propriedades ... */
-  font-variation-settings: 'FILL' 0 !important; /* <-- CULPADO! */
+  font-variation-settings: "FILL" 0 !important; /* <-- CULPADO! */
 }
 
 .icon-contour {
@@ -87,18 +87,28 @@ mat-icon {
 }
 
 :root {
-  --chart-gradient-color-1: #00BFFF; /* Azul Claro */
-  --chart-gradient-color-2: #8A2BE2; /* Roxo */
-  --chart-track-background: #E5E7EB; /* tailwindcss/colors.gray-200 */
-  --chart-hollow-background: #FFFFFF; /* Branco */
+  --chart-gradient-color-1: #00bfff; /* Azul Claro */
+  --chart-gradient-color-2: #8a2be2; /* Roxo */
+  --chart-track-background: #e5e7eb; /* tailwindcss/colors.gray-200 */
+  --chart-hollow-background: #ffffff; /* Branco */
   --chart-value-text-color: #374151; /* tailwindcss/colors.gray-700 */
 }
 
 /* Quando a tag <html> tiver a classe "dark", use estes valores */
 html.dark {
-  --chart-gradient-color-1: #3B82F6; /* tailwindcss/colors.blue-500 */
-  --chart-gradient-color-2: #9333EA; /* tailwindcss/colors.purple-600 */
+  --chart-gradient-color-1: #3b82f6; /* tailwindcss/colors.blue-500 */
+  --chart-gradient-color-2: #9333ea; /* tailwindcss/colors.purple-600 */
   --chart-track-background: var(--color-zinc-600); /* tailwindcss/colors.gray-600 */
   --chart-hollow-background: var(--color-zinc-800); /* tailwindcss/colors.gray-800 */
   --chart-value-text-color: var(--color-zinc-100); /* tailwindcss/colors.gray-300 */
+}
+
+.dark .multi-shadow {
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5), -5px -5px 20px rgba(39, 39, 42, 0.7),
+    inset 5px 5px 20px rgba(0, 0, 0, 0.4), inset -5px -5px 20px rgba(63, 63, 70, 0.6);
+}
+
+.multi-shadow {
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px white,
+    inset 5px 5px 10px rgba(30, 30, 30, 0.05), inset -5px -5px 10px white;
 }
