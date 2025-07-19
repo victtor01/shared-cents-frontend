@@ -1,4 +1,5 @@
 @use "tailwindcss";
+@use "@angular/material" as mat;
 
 @custom-variant dark (&:where(.dark, .dark *));
 

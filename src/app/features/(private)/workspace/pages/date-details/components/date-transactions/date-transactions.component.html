@@ -2,7 +2,9 @@
   class="grid grid-cols-1 lg:grid-cols-4 pb-[5rem] xl:grid-cols-5 2xl:grid-cols-6 px-5 gap-5"
 >
   @for(transaction of transactions; track $index) {
-  <div
+  <button
+    type="button"
+    (click)="details(transaction.id)"
     class="p-3 items-center border border-zinc-200/60 dark:border-zinc-700/50 gap-2 flex multi-shadow bg-white dark:bg-zinc-900 rounded-xl text-gray-500 dark:text-white"
   >
     <div
@@ -38,6 +40,6 @@
         </mat-icon>
       </section>
     </div>
-  </div>
+  </button>
   }
 </section>

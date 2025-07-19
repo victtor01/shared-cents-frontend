@@ -14,6 +14,8 @@ export class TransactionsService {
     );
   }
 
+  
+
   public findByDate(workspaceId: string, date: string) {
     return this.apiService.get<FinanceTransaction[]>(
       `/transactions/workspace/${workspaceId}/${date}`
