@@ -26,6 +26,12 @@ For a complete list of available schematics (such as `components`, `directives`,
 ng generate --help
 ```
 
+## Tasks to realize
+
+The tasks to realize are below
+
+- [] see transaction details on modal
+
 ## Building
 
 To build the project run:

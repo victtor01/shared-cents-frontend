@@ -1,8 +1,8 @@
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
 import { ToastService } from '@app/core/services/toast.service';
 import { TransactionsService } from '@app/core/services/transactions.service';
@@ -18,35 +18,32 @@ import { DateTransactionsModalDetailsComponent } from './components/date-transac
 export class DateTransactionsComponent implements OnInit {
   public transactions: FinanceTransaction[] = [];
 
-  private dialogRef: any;
+  private dialogRef?: DialogRef<unknown, DateTransactionsModalDetailsComponent> | null;
+
+  private readonly class =
+    'min-h-[10rem] rounded-xl border-zinc-200 dark:border-zinc-800';
 
   constructor(
     private readonly transactionsService: TransactionsService,
     private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
-    private readonly dialog: MatDialog,
-    private readonly router: Router
+    private readonly dialog: Dialog
   ) {}
 
   public details(id: string): void {
-    if (this.dialogRef && this.dialogRef.getState() === 0) {
+    if (this.dialogRef) {
       return;
     }
 
     this.dialogRef = this.dialog.open(DateTransactionsModalDetailsComponent, {
-      width: "100rem",
-      panelClass: 'custom-dialog',
+      panelClass: [...this.class.split(' ')],
+      width: 'min(50rem, 90%)',
+      backdropClass: ['bg-white', "dark:bg-zinc-950"],
       data: { id: id },
     });
 
-    this.dialogRef.afterClosed().subscribe((result: any) => {
-      console.log('O modal foi fechado com:', result);
-
-      this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { edit: null },
-        queryParamsHandling: 'merge', // Mantém outros query params se houver
-      });
+    this.dialogRef.closed.subscribe(() => {
+      this.dialogRef = null;
     });
   }
 

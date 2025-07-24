@@ -11,7 +11,7 @@
       [attr.data-positive]="transaction.amount > 0"
       class="border bg-white grid place-items-center rounded-lg px-2 py-3 border-zinc-200 dark:border-none dark:bg-zinc-800 data-[positive=true]:text-indigo-500 text-rose-500"
     >
-      @if(transaction.amount > 1) {
+      @if(transaction.amount > 0) {
       <mat-icon>arrow_upward</mat-icon>
       }@else {
       <mat-icon>arrow_downward</mat-icon>

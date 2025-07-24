@@ -14,7 +14,11 @@ export class TransactionsService {
     );
   }
 
-  
+  public findById(transactionId: string) {
+    return this.apiService.get<FinanceTransaction | null>(
+      `/transactions/${transactionId}`
+    );
+  }
 
   public findByDate(workspaceId: string, date: string) {
     return this.apiService.get<FinanceTransaction[]>(
