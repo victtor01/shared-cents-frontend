@@ -1,26 +1,48 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
+import { Component, HostBinding, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
 import { ToastService } from '@app/core/services/toast.service';
 import { TransactionsService } from '@app/core/services/transactions.service';
+import { modalAnimation } from '@app/shared/animations/modal-animation';
+import { ToFormatBrlPipe } from '@app/shared/pipes/to-format-brl-pipe/to-format-brl.pipe';
 import { ToPaymentMethodIconPipe } from '@app/shared/pipes/to-payment-method-icon.pipe';
 
 @Component({
   selector: 'date-transaction-modal-details',
   templateUrl: './date-transactions-modal-details.component.html',
-  imports: [CommonModule, MatIcon, ToPaymentMethodIconPipe],
+  styles: ``,
+  imports: [
+    CommonModule,
+    ToPaymentMethodIconPipe,
+    MatIconModule,
+    ToFormatBrlPipe,
+    ReactiveFormsModule,
+  ],
+  animations: [
+    modalAnimation,
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('1s ease-in', style({ opacity: '*' })),
+      ]),
+    ]),
+  ],
 })
 export class DateTransactionsModalDetailsComponent implements OnInit {
+  @HostBinding('@modalAnimation') animation = true;
   public transaction?: FinanceTransaction | null;
+  public form?: FormGroup;
 
   constructor(
-    private readonly dialog: DialogRef<DateTransactionsModalDetailsComponent>,
+    private readonly dialog: MatDialogRef<DateTransactionsModalDetailsComponent>,
     private readonly transactionsService: TransactionsService,
     private readonly toastService: ToastService,
-
-    @Inject(DIALOG_DATA)
+    private readonly fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA)
     private readonly data: { id: string }
   ) {}
 
@@ -33,6 +55,13 @@ export class DateTransactionsModalDetailsComponent implements OnInit {
     this.transactionsService.findById(this.data?.id).subscribe((e) => {
       if (e?.id) {
         this.transaction = e;
+        this.form = this.fb.group({
+          description: [e.description || ''],
+          name: [e.name, [Validators.required, Validators.minLength(3)]],
+          amount: [e.amount, [Validators.required]],
+          payment_method: [e.paymentMethod, [Validators.required]],
+          status: [e.status],
+        });
       } else {
         this.toastService.error('Essa transação não existe!');
       }

@@ -8,10 +8,11 @@ import localePt from '@angular/common/locales/pt';
 import {
   ApplicationConfig,
   DEFAULT_CURRENCY_CODE,
+  importProvidersFrom,
   LOCALE_ID,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { CredentialsInterceptor } from './core/interceptors/credentials.interceptor';
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
+    importProvidersFrom(BrowserAnimationsModule),
     provideAnimations(),
     {
       provide: HTTP_INTERCEPTORS,

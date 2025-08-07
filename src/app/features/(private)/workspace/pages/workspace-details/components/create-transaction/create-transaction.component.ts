@@ -22,7 +22,6 @@ export class CreateTransactionComponent implements OnInit {
   private _workspaceId!: string;
   private _paymentMethod = paymentMethods;
   private _methodsLegends = paymentMethodsLegend;
-
   public isOpenInput = signal<boolean>(false);
   public type = signal<TransactionType>('INCOME');
   
@@ -97,6 +96,7 @@ export class CreateTransactionComponent implements OnInit {
     this.transactionsService.createIncome(props).subscribe({
       next: (e) => {
         this.toast.success('Criado com sucesso!');
+        this.isOpenInput.update(() => false);
         this.transactionCreated.emit(e);
         this._form.reset();
       },

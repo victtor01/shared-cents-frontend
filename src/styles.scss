@@ -113,3 +113,24 @@ html.dark {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px white,
     inset 5px 5px 10px rgba(30, 30, 30, 0.05), inset -5px -5px 10px white;
 }
+
+.hover-multi-shadow {
+  &:hover {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px white,
+      inset 5px 5px 10px rgba(30, 30, 30, 0.05), inset -5px -5px 10px white;
+  }
+}
+
+.dark .hover-multi-shadow {
+  &:hover {
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5), -5px -5px 20px rgba(39, 39, 42, 0.7),
+      inset 5px 5px 20px rgba(0, 0, 0, 0.4), inset -5px -5px 20px rgba(63, 63, 70, 0.6);
+  }
+}
+
+.dialog-no-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background-color: transparent !important; // Remove o fundo branco
+  box-shadow: none !important; // Remove a sombra
+  padding: 0 !important; // Opcional: remove o preenchimento interno
+  border-radius: 0 !important; // Opcional: remove as bordas arredondadas
+}

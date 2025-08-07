@@ -1,11 +1,11 @@
 <section
-  class="grid grid-cols-1 lg:grid-cols-4 pb-[5rem] xl:grid-cols-5 2xl:grid-cols-6 px-5 gap-5"
+  class="grid grid-cols-1 lg:grid-cols-4 pb-[5rem] xl:grid-cols-5 2xl:grid-cols-6 px-5 gap-1"
 >
   @for(transaction of transactions; track $index) {
   <button
     type="button"
     (click)="details(transaction.id)"
-    class="p-3 items-center border border-zinc-200/60 dark:border-zinc-700/50 gap-2 flex multi-shadow bg-white dark:bg-zinc-900 rounded-xl text-gray-500 dark:text-white"
+    class="p-3 items-center border border-zinc-200/60 cursor-pointer transition-all opacity-90 dark:border-zinc-700/50 gap-2 flex hover-multi-shadow bg-white dark:bg-zinc-900 rounded-xl text-gray-500 dark:text-white"
   >
     <div
       [attr.data-positive]="transaction.amount > 0"
@@ -35,9 +35,18 @@
           {{ transaction.createdAt | date : "'criado às ' HH:mm " }}
         </span>
 
-        <mat-icon class="opacity-60 icon-xs">
-          {{ transaction?.paymentMethod | toPaymentMethodIcon }}
-        </mat-icon>
+        <div class="flex items-center gap-2">
+          <span
+            *ngIf="transaction.amount < 0"
+            class="data-[paid=true]:text-emerald-400 grid palce-items-center text-orange-400 data-[paid=false]:animate-pulse"
+            [attr.data-paid]="transaction.status === 'PAID'"
+          >
+            <mat-icon class="icon-sm ml-1"> fiber_manual_record </mat-icon>
+          </span>
+          <mat-icon class="opacity-60">
+            {{ transaction?.paymentMethod | toPaymentMethodIcon }}
+          </mat-icon>
+        </div>
       </section>
     </div>
   </button>

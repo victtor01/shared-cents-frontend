@@ -1,63 +1,117 @@
-<div class="flex-col p-4 flex text-gray-500 dark:text-zinc-300">
-  @if(transaction!.amount > 0) {
-  <div
-    class="bg-gradient-to-b dark:opacity-50 dark:from-indigo-500 from-indigo-100 to-transparent from-10% absolute w-full top-0 left-0 h-[40vh] z-[-1] pointer-events-none"
-  ></div>
-  }@else {
-  <div
-    class="bg-gradient-to-b dark:opacity-50 dark:from-orange-500 from-orange-100 to-transparent from-10% absolute w-full top-0 left-0 h-[40vh] z-[-1] pointer-events-none"
-  ></div>
-  }
+<div
+  *ngIf="transaction && transaction.amount > 0"
+  [@fadeIn]
+  class="bg-gradient-to-b dark:opacity-50 dark:from-indigo-500 from-indigo-100 to-transparent from-10% fixed w-full top-0 left-0 h-[40vh] z-[-1] pointer-events-none"
+></div>
+<div
+  *ngIf="transaction && transaction.amount < 0"
+  [@fadeIn]
+  class="bg-gradient-to-b dark:opacity-50 dark:from-orange-500 from-orange-100 to-transparent from-10% fixed w-full top-0 left-0 h-[40vh] z-[-1] pointer-events-none"
+></div>
 
-  <header class="w-full h-auto grid place-items-center mb-[5rem]">
+<section
+  *ngIf="transaction && form; else loading"
+  class="flex-col p-6 rounded-xl flex text-gray-500 border-t-2 border-l-2 border-transparent dark:border-zinc-800 dark:text-zinc-300 bg-white dark:bg-zinc-900 bg-gradient-to-b from-white to-gray-50 from-70% dark:from-zinc-950/40 dark:to-zinc-950/40"
+>
+  <button
+    (click)="closeDialog()"
+    class="flex w-12 h-12 absolute opacity-90 dark:bg-zinc-800 hover:opacity-100 cursor-pointer top-5 left-5 rounded-full bg-zinc-100 items-center justify-center"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <header class="w-full h-auto grid place-items-center mt-[5rem]">
     <div
-      class="w-[6rem] h-[6rem] rounded-full bg-zinc-900 grid place-items-center text-white relative"
+      [attr.data-income]="transaction.amount > 0"
+      class="w-[6rem] h-[6rem] rounded-full bg-zinc-900 grid place-items-center relative shadow-xl shadow-orange-500/20 data-[income=true]:shadow-indigo-500/30 data-[income=true]:text-indigo-100 text-orange-100"
     >
-      @if(transaction!.amount > 0) {
-      <mat-icon class="icon-xl">arrow_upward</mat-icon>
-      }@else {
-      <mat-icon class="icon-xl">arrow_downward</mat-icon>
-      }
+      <mat-icon *ngIf="transaction.amount > 0" class="icon-xl">arrow_upward</mat-icon>
+      <mat-icon *ngIf="transaction.amount < 0" class="icon-xl">arrow_downward</mat-icon>
 
       <div
-        class="w-8 h-8 grid place-items-center border-2 border-white absolute bottom-0 right-0 rounded-full bg-zinc-900"
+        class="w-10 h-10 grid place-items-center border-3 border-white dark:border-zinc-800 absolute -bottom-2 -right-2 rounded-full bg-zinc-900"
       >
         <mat-icon class="icon-sm">
-          {{ transaction?.paymentMethod | toPaymentMethodIcon }}
+          {{ transaction.paymentMethod | toPaymentMethodIcon }}
         </mat-icon>
       </div>
     </div>
+
+    <div class="mt-6 font-semibold saira-font text-3xl text-gray-500 dark:text-gray-200">
+      {{ transaction!.amount | toFormatBrl }}
+    </div>
+
+    <div
+      class="mt-2 flex saira-font divide-zinc-300 text-lg dark:divide-zinc-600 w-full items-center divide-x"
+    >
+      <div class="px-3 flex flex-1 justify-end">
+        {{ transaction.createdAt | date : "YYYY/MM/dd" }}
+      </div>
+      <div class="px-3 flex flex-1">
+        {{ transaction.user?.email }}
+      </div>
+    </div>
+
+    @if(transaction.amount < 0) {
+    <div
+      [attr.data-paid]="transaction.status === 'PAID'"
+      class="flex rounded-full items-center saira-font mt-2 data-[paid=true]:text-emerald-400 shadow-lg data-[paid=true]:shadow-emerald-400/40 shadow-orange-500/30 text-orange-400 bg-zinc-800"
+    >
+      <mat-icon class="icon-sm ml-1"> fiber_manual_record </mat-icon>
+
+      <span class="px-1 pr-2 text-md font-semibold">
+        @switch (transaction.status) { @case ('PAID') { Pago } @case ('PENDING') {
+        Pendente } }
+      </span>
+    </div>
+    }
   </header>
 
-  <section class="flex flex-1 h-full flex-col gap-2">
-    <label
-      for="name"
-      class="flex rounded-lg overflow-hidden focus-within:bg-stone-50 dark:focus-within:bg-zinc-800"
-    >
-      <input
-        type="text"
-        placeholder="Name"
-        id="name"
-        class="placeholder:text-gray-400 text-lg font-semibold dark:placeholder:text-zinc-600 flex flex-1 p-2 outline-none"
-      />
-    </label>
+  <form [formGroup]="form">
+    <section class="flex flex-1 h-full flex-col gap-2">
+      <label for="name" class="flex rounded-lg transition-all overflow-hidden">
+        <input
+          type="text"
+          placeholder="Name"
+          id="name"
+          formControlName="name"
+          class="placeholder:text-gray-400 text-3xl focus:text-zinc-600 transition-all saira-font dark:focus:text-white dark:text-gray-100 font-semibold dark:placeholder:text-zinc-600 flex flex-1 outline-none"
+        />
+      </label>
 
-    <label for="description" class="flex flex-col gap-1">
-      <span class="text-gray-500 dark:text-zinc-100 saira-font text-lg">Descrição</span>
-      <textarea
-        name="description"
-        id="description"
-        placeholder="Coloque uma descrição..."
-        class="bg-zinc-50 rounded-lg p-2 h-[8rem] w-full resize-none outline-none placeholder:text-gray-400 dark:placeholder:text-zinc-500"
-      ></textarea>
-    </label>
-  </section>
+      <label for="description" class="flex flex-col gap-1">
+        <span class="text-gray-500 dark:text-zinc-100 saira-font text-lg">Descrição</span>
+        <textarea
+          name="description"
+          id="description"
+          formControlName="description"
+          placeholder="Coloque uma descrição..."
+          class="bg-zinc-50 rounded-lg p-2 h-[8rem] dark:bg-zinc-900 w-full resize-none outline-none placeholder:text-gray-400 dark:placeholder:text-zinc-500"
+        ></textarea>
+      </label>
+    </section>
 
-  <footer class="flex mt-2">
-    <button
-      class="p-2 px-4 bg-indigo-500 text-indigo-50 rounded-full hover:bg-indigo-600 transition-all cursor-pointer"
-    >
-      <span class="saira-font font-semibold"> Salvar </span>
-    </button>
-  </footer>
-</div>
+    <footer class="flex mt-2 justify-between items-center">
+      <button
+        class="p-2 px-4 bg-indigo-500 text-indigo-50 rounded-full hover:bg-indigo-600 transition-all cursor-pointer"
+      >
+        <span class="saira-font font-semibold"> Salvar </span>
+      </button>
+
+      @if (transaction.amount < 0 && transaction.status === "PENDING") {
+      <button
+        class="p-2 px-4 bg-orange-500 text-orange-50 hover:shadow-lg hover:shadow-orange-500/30 rounded-full hover:bg-orange-600 transition-all cursor-pointer"
+      >
+        <span class="saira-font font-semibold"> Pagar agora </span>
+      </button>
+      }
+    </footer>
+  </form>
+</section>
+
+<ng-template
+  #loading
+  class="bg-red-500 flex text-center items-center justify-center flex-1"
+>
+  Carregando...
+</ng-template>

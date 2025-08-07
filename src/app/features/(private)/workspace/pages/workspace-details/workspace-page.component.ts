@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
 import { Workspace } from '@app/core/models/Workspace';
-import { ToastService } from '@app/core/services/toast.service';
 import { TransactionsService } from '@app/core/services/transactions.service';
 import { WorkspaceService } from '@app/core/services/workspace.service';
+import dayjs from 'dayjs';
 import { CreateTransactionComponent } from './components/create-transaction/create-transaction.component';
 import { HeaderWorkspaceComponent } from './components/header/header-workspace.component';
 import { IncomeExpensesComponent } from './components/incomes-expenses/incomes-expenses.component';
 import { MainInstallmentComponent } from './components/main-installment/main-installment.component';
 import { ShowTransactionsComponent } from './components/show-transactions/show-transactions.component';
+
+import 'dayjs/locale/pt-br';
 
 @Component({
   imports: [
@@ -29,8 +31,7 @@ export class DetailsWorkspaceComponent implements OnInit {
   constructor(
     private readonly currRoute: ActivatedRoute,
     private readonly workspaceService: WorkspaceService,
-    private readonly transactionsService: TransactionsService,
-    private readonly toastService: ToastService
+    private readonly transactionsService: TransactionsService
   ) {
     this.currRoute.paramMap.subscribe((params: ParamMap) => {
       this.workspaceId = params.get('workspaceId');
@@ -38,18 +39,26 @@ export class DetailsWorkspaceComponent implements OnInit {
   }
 
   public updateTransactions(transaction: FinanceTransaction) {
-    // this.transactions = [...[...(this.transactions || [])], transaction];
-    // if (
-    //   this?.workspace?.amount &&
-    //   transaction?.amount < 0 &&
-    //   transaction?.status === 'PAID'
-    // ) {
-    //   if (this?.workspace?.amount > Math.abs(transaction?.amount)) {
-    //     this.workspace.amount += transaction?.amount || 0;
-    //     return;
-    //   }
-    //   this.toastService.error('Valor para saída inválida!');
-    // }
+    if (transaction?.id) {
+      const today = dayjs().format('YYYY-MM-DD');
+      const dailyTransaction = this.transactions?.find((obj) => obj.date === today);
+
+      if (dailyTransaction) {
+        dailyTransaction.transactions.push(transaction);
+      } else {
+        this.transactions?.push({
+          date: today,
+          transactions: [transaction],
+        });
+      }
+
+      if (
+        transaction?.amount < 0 &&
+        Math.abs(transaction.amount) < this.workspace?.amount!
+      ) {
+        this.workspace!.amount += transaction?.amount;
+      }
+    }
   }
 
   public ngOnInit(): void {

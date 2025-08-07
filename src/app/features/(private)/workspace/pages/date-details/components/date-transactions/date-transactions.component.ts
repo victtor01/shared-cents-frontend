@@ -1,6 +1,6 @@
-import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute } from '@angular/router';
 import { FinanceTransaction } from '@app/core/models/FinanceTransition';
@@ -18,17 +18,14 @@ import { DateTransactionsModalDetailsComponent } from './components/date-transac
 export class DateTransactionsComponent implements OnInit {
   public transactions: FinanceTransaction[] = [];
 
-  private dialogRef?: DialogRef<unknown, DateTransactionsModalDetailsComponent> | null;
-
-  private readonly class =
-    'min-h-[10rem] rounded-xl border-zinc-200 dark:border-zinc-800';
+  private dialogRef?: MatDialogRef<unknown, DateTransactionsModalDetailsComponent> | null;
 
   constructor(
     private readonly transactionsService: TransactionsService,
     private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
-    private readonly dialog: Dialog
-  ) {}
+    private readonly dialog: MatDialog
+  ) {} 
 
   public details(id: string): void {
     if (this.dialogRef) {
@@ -36,13 +33,15 @@ export class DateTransactionsComponent implements OnInit {
     }
 
     this.dialogRef = this.dialog.open(DateTransactionsModalDetailsComponent, {
-      panelClass: [...this.class.split(' ')],
-      width: 'min(50rem, 90%)',
-      backdropClass: ['bg-white', "dark:bg-zinc-950"],
+      width: 'min(40rem, 90%)',
+      backdropClass: ['bg-transparent', 'dark:bg-zinc-950/40', 'backdrop-blur-lg'],
       data: { id: id },
+      panelClass: "dialog-no-container",
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '200ms',
     });
 
-    this.dialogRef.closed.subscribe(() => {
+    this.dialogRef.afterClosed().subscribe(() => {
       this.dialogRef = null;
     });
   }
