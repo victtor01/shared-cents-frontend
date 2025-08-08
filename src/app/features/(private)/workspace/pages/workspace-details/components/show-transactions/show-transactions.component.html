@@ -38,13 +38,13 @@
     </div>
   </header>
 
-  <section class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-7 gap-3 relative">
+  <section class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-7 gap-2 relative">
     @for (item of transactions; track $index) {
     <button
       (click)="redirectToDetails(item.date)"
       [attr.data-item]="!!item?.transactions?.length"
       [attr.data-today]="!!isToday(item.date)"
-      class="data-[today=true]:border-4 multi-shadow data-[today=true]:dark:border-zinc-600 flex flex-col flex-1 relative p-2 border group rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-300 dark:border-zinc-800 h-[10rem] data-[item=false]:opacity-70"
+      class="data-[today=true]:border-4  data-[today=true]:dark:border-zinc-600 flex flex-col flex-1 relative p-2 border group rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800 border-zinc-300 dark:border-zinc-800 h-[10rem] data-[item=false]:opacity-70"
       [ngClass]="getDayClass(item?.transactions?.length)"
     >
       <header

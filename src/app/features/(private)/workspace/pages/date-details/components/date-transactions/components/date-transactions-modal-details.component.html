@@ -100,6 +100,8 @@
 
       @if (transaction.amount < 0 && transaction.status === "PENDING") {
       <button
+        type="button"
+        (click)="pay()"
         class="p-2 px-4 bg-orange-500 text-orange-50 hover:shadow-lg hover:shadow-orange-500/30 rounded-full hover:bg-orange-600 transition-all cursor-pointer"
       >
         <span class="saira-font font-semibold"> Pagar agora </span>

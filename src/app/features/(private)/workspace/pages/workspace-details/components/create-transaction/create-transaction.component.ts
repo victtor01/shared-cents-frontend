@@ -24,7 +24,7 @@ export class CreateTransactionComponent implements OnInit {
   private _methodsLegends = paymentMethodsLegend;
   public isOpenInput = signal<boolean>(false);
   public type = signal<TransactionType>('INCOME');
-  
+
   @Output()
   public transactionCreated = new EventEmitter<FinanceTransaction>();
 
@@ -59,9 +59,10 @@ export class CreateTransactionComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this._form.get('status')?.setValue('PENDING');
+
     this.route.paramMap.subscribe((params) => {
       const id = params.get('workspaceId');
-
       if (id) {
         this._workspaceId = id;
       }

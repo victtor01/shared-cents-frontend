@@ -1,5 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, HostBinding, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -33,7 +34,9 @@ import { ToPaymentMethodIconPipe } from '@app/shared/pipes/to-payment-method-ico
   ],
 })
 export class DateTransactionsModalDetailsComponent implements OnInit {
-  @HostBinding('@modalAnimation') animation = true;
+  @HostBinding('@modalAnimation')
+  public animation = true;
+
   public transaction?: FinanceTransaction | null;
   public form?: FormGroup;
 
@@ -69,7 +72,27 @@ export class DateTransactionsModalDetailsComponent implements OnInit {
   }
 
   public closeDialog(): void {
-    this.dialog.close();
+    this.dialog.close({ transaction: this.transaction });
+  }
+
+  public pay(): void {
+    if (!this.transaction) return;
+
+    this.transactionsService.payExpense(this.transaction.id).subscribe({
+      next: (data) => {
+        this.toastService.success('Pagamento confirmado!');
+
+        this.transaction = {
+          ...this.transaction,
+          ...data,
+        };
+
+        this.closeDialog();
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastService.error(err.message);
+      },
+    });
   }
 
   get id() {

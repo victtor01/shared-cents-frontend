@@ -35,4 +35,9 @@ export class TransactionsService {
     const url = '/transactions/expense';
     return this.apiService.post<FinanceTransaction>(url, data);
   }
+
+  public payExpense(transactionId: string) {
+    const url = `/transactions/pay/${transactionId}`;
+    return this.apiService.post<FinanceTransaction>(url);
+  }
 }

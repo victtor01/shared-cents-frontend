@@ -25,7 +25,7 @@ export class DateTransactionsComponent implements OnInit {
     private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
     private readonly dialog: MatDialog
-  ) {} 
+  ) {}
 
   public details(id: string): void {
     if (this.dialogRef) {
@@ -36,12 +36,20 @@ export class DateTransactionsComponent implements OnInit {
       width: 'min(40rem, 90%)',
       backdropClass: ['bg-transparent', 'dark:bg-zinc-950/40', 'backdrop-blur-lg'],
       data: { id: id },
-      panelClass: "dialog-no-container",
+      panelClass: 'dialog-no-container',
       enterAnimationDuration: '300ms',
       exitAnimationDuration: '200ms',
     });
 
-    this.dialogRef.afterClosed().subscribe(() => {
+    this.dialogRef.afterClosed().subscribe((finance) => {
+      if (finance?.transaction) {
+        this.transactions = this.transactions.map((e: FinanceTransaction) =>
+          e.id === finance?.transaction?.id
+            ? { ...e, status: finance.transaction.status }
+            : e
+        );
+      }
+
       this.dialogRef = null;
     });
   }
